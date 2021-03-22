@@ -1,0 +1,87 @@
+<!--
+  ~ Copyright (c) 2021 the original author or authors.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~  https://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and limitations under the License.
+  ~
+  -->
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav nav-tabs card-header-tabs">
+                <li [ngbNavItem]="1">
+                    <a ngbNavLink>Proposals</a>
+                    <ng-template ngbNavContent>
+                        <p-table [value]="proposals" selectionMode="single" [(selection)]="selectedProposal" dataKey="id"
+                            (onRowSelect)="onRowProposalSelect($event)" [resizableColumns]="true">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 40%;">Proposal</th>
+                                    <th style="width: 20%;">Date</th>
+                                    <th style="width: 15%;">Type</th>
+                                    <th style="width: 15%;">Status</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-prop>
+                                <tr [pSelectableRow]="prop">
+                                    <td>{{prop.title}}</td>
+                                    <td>{{prop.date | date:'shortDate' }}</td>
+                                    <td>{{lookupType(prop.type)}}</td>
+                                    <td>{{prop.status}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                    <a ngbNavLink>Client</a>
+                    <ng-template ngbNavContent>
+                        <p>Client Info</p>
+                    </ng-template>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body overflow-auto" style="max-height: 40em;">
+            <div [ngbNavOutlet]="nav"></div>
+        </div>
+    </div>
+
+
+</div>
+<div style="margin: 2em;"></div>
+
+
+<p-treeTable [value]="proposalTreeNode" [columns]="cols"
+             [resizableColumns]="true" styleClass="p-treetable-sm" selectionMode="single">
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns" ttResizableColumn [ngClass]="col.priority" [ngStyle]="{'width': col.width }">
+                {{col.header}}
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+        <tr [ngClass]="{'kb-row': rowData.qty == undefined}">
+            <td>
+                <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+                {{rowData.name}}
+                <span class="visibility-sm">
+                     {{rowData.detail}} - {{rowData.total | currency }}
+                </span>
+            </td>
+            <td class="priority-2" >{{rowData.detail}}</td>
+            <td class="priority-3">{{rowData.qtyUnit}}</td>
+            <td class="priority-4">{{rowData.cost | currency}}</td>
+            <td class="priority-5">{{rowData.total | currency}}</td>
+        </tr>
+    </ng-template>
+</p-treeTable>

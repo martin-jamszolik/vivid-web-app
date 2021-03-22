@@ -1,0 +1,72 @@
+<!--
+  ~ Copyright (c) 2021 the original author or authors.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~  https://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and limitations under the License.
+  ~
+  -->
+
+<form (ngSubmit)="onSubmit()" #estimatorForm="ngForm">
+
+    <div class="card">
+        <h5 class="card-header">Search Proposals</h5>
+        <div class="card-body">
+            <div class="form-row">
+
+                <div class="form-group col-md-10">
+                    <label for="inputProject">Project Name or Address</label>
+                    <input type="text" class="form-control" id="inputProject" name="inputProject" placeholder="Project Name"
+                    [(ngModel)]="query.projectName">
+                </div>
+
+                <div class="form-group col">
+                    <div style="margin: 2em;"></div>
+                    <div>
+                        <button type="submit" id="InputSearchBtn" class="btn btn-primary align-baseline">Search</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+      </div>
+
+
+
+
+
+
+    <div class="form-row" style="margin-top: 0.8em;">
+        <div class="col">
+            <p-table [value]="projects" selectionMode="single" [(selection)]="selectedProject" dataKey="id"
+                (onRowSelect)="onRowSelect($event)">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Title</th>
+                        <th pSortableColumn="date">Date <p-sortIcon field="name"></p-sortIcon></th>
+                        <th>Estimator</th>
+                        <th>Address</th>
+                        <th>Status</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-prj>
+                    <tr [pSelectableRow]="prj">
+                        <td>{{prj.title}}</td>
+                        <td>{{prj.date | date:'shortDate' }}</td>
+                        <td>{{prj.estimator}}</td>
+                        <td>{{prj.address}}</td>
+                        <td>{{prj.status}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+
+</form>
