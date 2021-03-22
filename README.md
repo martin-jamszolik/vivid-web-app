@@ -1,4 +1,4 @@
-#Vivid Web Application
+# Vivid Web Application
 A composition of the latest Angular and Kotlin Spring Web technology to showcase a modern,
 data driven business application.  Among various other goals, we hope to help others 
 kick-start a project by sharing solutions utilized in the real world scenarios.  
