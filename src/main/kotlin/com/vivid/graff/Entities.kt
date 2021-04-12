@@ -15,22 +15,34 @@
 
 package com.vivid.graff
 
-import org.apache.commons.codec.digest.DigestUtils
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Column
 import java.util.*
-
-val String.md5: String
-    get() {
-        return DigestUtils.md5Hex(this)
-    }
-
-
-val String.sha512: String
-    get() {
-        return DigestUtils.sha512_224Hex(this)
-    }
 
 
 data class Project(
+    @Id
+    @Column("pp_key")
+    var id: Long = 0,
+    @Column("pp_name")
+    var title: String = "",
+    @Column("el_key")
+    var locationId: Long = 0,
+    @Column("e_key")
+    var estimatorId: Long = 0,
+    @Column("c_key")
+    var companyId: Long = 0,
+    @Column("c_key")
+    var clientId: Long = 0,
+    @Column("pp_status")
+    var status: String = "",
+    @Column("pp_date")
+    var date: Date? = null,
+    @Column("pp_owner")
+    var owner: String = ""
+)
+
+data class ProjectDTO(
     var id: Long = 0,
     var title: String = "",
     var address: String = "",

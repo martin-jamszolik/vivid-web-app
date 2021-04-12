@@ -39,6 +39,7 @@ class H2DatabaseConfiguration(val encoder: PasswordEncoder) {
             .setDataSourceFactory( VividDriverDataSourceFactory())
             .setName("first")
             .setType(EmbeddedDatabaseType.H2)
+            .continueOnError(true)
             .addScript("classpath:templates/h2-ddl.sql")
             .addScript("classpath:templates/seed-h2-1.sql")
             .build();
@@ -49,6 +50,7 @@ class H2DatabaseConfiguration(val encoder: PasswordEncoder) {
         return EmbeddedDatabaseBuilder()
             .setDataSourceFactory( VividDriverDataSourceFactory())
             .setName("second")
+            .continueOnError(true)
             .setType(EmbeddedDatabaseType.H2)
             .addScript("classpath:templates/h2-ddl.sql")
             .addScript("classpath:templates/seed-h2-2.sql")

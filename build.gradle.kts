@@ -17,18 +17,17 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.moowork.gradle.node.npm.NpmTask
 
 
-
 plugins {
-    id("org.springframework.boot") version "2.4.2"
+    id("org.springframework.boot") version "2.4.4"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    kotlin("jvm") version "1.4.31"
+    kotlin("plugin.spring") version "1.4.31"
     id("com.github.node-gradle.node") version "2.2.4"
-    kotlin("jvm") version "1.4.21"
-    kotlin("plugin.spring") version "1.4.21"
 }
 
 group = "com.vivid"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_15
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
@@ -41,7 +40,7 @@ dependencies {
     }
     implementation("org.springframework.boot:spring-boot-starter-undertow")
 
-    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
     {
         exclude(group="com.zaxxer",module="HikariCP")
     }
@@ -55,8 +54,12 @@ dependencies {
     implementation("commons-codec:commons-codec:1.14")
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    testImplementation("com.ninja-squad:springmockk:3.0.1")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+        exclude(module="junit")
+        exclude(module="junit-vintage-engine")
+        exclude(module="mockito-core")
     }
     testImplementation("org.springframework.security:spring-security-test")
 }
@@ -68,7 +71,7 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "15"
+        jvmTarget = "11"
         useIR = true
     }
 }
