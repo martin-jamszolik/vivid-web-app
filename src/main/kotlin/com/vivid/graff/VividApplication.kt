@@ -15,6 +15,7 @@
 
 package com.vivid.graff
 
+import org.apache.commons.codec.digest.DigestUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -43,3 +44,15 @@ fun <R : Any> R.logger(): Lazy<Logger> {
 fun <T : Any> getClassName(clazz: Class<T>): String {
     return clazz.name.removeSuffix("\$Companion")
 }
+
+
+val String.md5: String
+    get() {
+        return DigestUtils.md5Hex(this)
+    }
+
+
+val String.sha512: String
+    get() {
+        return DigestUtils.sha512_224Hex(this)
+    }

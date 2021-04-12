@@ -16,25 +16,40 @@
 package com.vivid.graff
 
 import com.vivid.graff.estimator.ProjectRepository
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.data.jdbc.AutoConfigureDataJdbc
+import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.security.test.context.support.WithUserDetails
 import org.springframework.test.annotation.DirtiesContext
 
-
 @SpringBootTest(classes = [SpringSecurityTestConfiguration::class] )
-class VividApplicationTests {
-	init {
-		System.setProperty("jasypt.encryptor.password", "testonlyprofile")
-	}
+class ProjectRepositoryTests {
+
+    init {
+        System.setProperty("jasypt.encryptor.password", "testonlyprofile")
+    }
+
+    @Autowired
+    lateinit var projectRepository: ProjectRepository
 
 
-	@Test
-	@WithUserDetails("first_user")
-	fun contextLoads() {
+    @Test
+    @WithUserDetails("first_user")
+    fun `should find one Project for first client`() {
+        val list = projectRepository.findProjects("%1030 5th Avenue%")
+        assertThat(list).isNotEmpty
+    }
 
-	}
+    @Test
+    @WithUserDetails("second_user")
+    fun `should find one Project for second client`() {
+        val list = projectRepository.findProjects("%80 8th Avenue%")
+        assertThat(list).isNotEmpty
+    }
+
 
 }

@@ -16,6 +16,7 @@
 package com.vivid.graff.estimator
 
 import com.vivid.graff.Project
+import com.vivid.graff.ProjectDTO
 import org.springframework.http.MediaType
 import org.springframework.jdbc.core.BeanPropertyRowMapper
 import org.springframework.jdbc.core.JdbcTemplate
@@ -24,13 +25,13 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/projects")
-class ProjectController(private val repo: JdbcTemplate) {
+class ProjectController(private val repo: ProjectRepository) {
     companion object {
         val OPERATORS = mapOf(":" to "=")
     }
 
     @GetMapping
-    fun search(@RequestParam("search") search: String): List<Project> {
+    fun search(@RequestParam("search") search: String): List<ProjectDTO> {
 
         val query = HashMap<String,Pair<String,String>>()
         val regex = Regex("(\\w+?)(:)((\\w|\\s)+?),")
@@ -44,20 +45,7 @@ class ProjectController(private val repo: JdbcTemplate) {
             }
         }
 
-        return repo.query("""
-            SELECT pp_key as id,
-                   pp_name as title,
-                   address as address,
-                   pp_status as status, 
-                   pp_date as date,
-                   c_name as company,
-                   e_name as estimator
-              FROM `project` p 
-              INNER JOIN `location` e USING (el_key)
-              INNER JOIN company c  USING (c_key)
-              INNER JOIN estimator e2 USING ( e_key)
-              WHERE pp_name like ?
-        """.trimIndent(), BeanPropertyRowMapper(Project::class.java), query["project"]?.second)
+        return repo.findProjects( query["project"]!!.second )
     }
 
 
