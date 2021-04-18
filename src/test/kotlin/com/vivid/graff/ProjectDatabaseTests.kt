@@ -28,7 +28,7 @@ class ProjectDatabaseTests: VividApplicationTests()  {
 
     @Test
     fun `query for project list using Kotlin ORM`(){
-        val list = projectDatabase.searchByName ("1030 5th Avenue")
+        val list = projectDatabase.projectsByName ("1030 5th Avenue")
         assertThat(list).isNotEmpty
     }
 
