@@ -21,15 +21,22 @@ import org.springframework.context.ApplicationListener
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.core.context.SecurityContextHolder
+import java.util.*
 import javax.sql.DataSource
+import kotlin.collections.LinkedHashMap
 
 
 class MultiDataSource : TargetSource, ApplicationListener<ContextRefreshedEvent> {
 
     private val logger by logger()
     private val dataSourceMap = LinkedHashMap<String, DataSource>()
+    private var defaultDs: Optional<DataSource> = Optional.empty()
 
     fun getSourceMap(): MutableMap<String, DataSource> = this.dataSourceMap
+
+    fun default(ds:DataSource) {
+        this.defaultDs = Optional.of(ds)
+    }
 
     fun addDS(key: String, ds: DataSource) {
         dataSourceMap[key] = ds
@@ -48,7 +55,10 @@ class MultiDataSource : TargetSource, ApplicationListener<ContextRefreshedEvent>
 
             }
         }
-        return null;
+        if( logger.isWarnEnabled ){
+            logger.warn("tenant database not found. Trying default if exists")
+        }
+        return defaultDs.orElseGet { null }
     }
 
 

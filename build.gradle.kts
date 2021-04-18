@@ -44,6 +44,10 @@ dependencies {
     {
         exclude(group="com.zaxxer",module="HikariCP")
     }
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.ktorm:ktorm-core:3.3.0")
+    implementation("org.ktorm:ktorm-jackson:3.3.0")
+
     implementation("org.vibur:vibur-dbcp:25.0")
     runtimeOnly("com.h2database:h2")
 

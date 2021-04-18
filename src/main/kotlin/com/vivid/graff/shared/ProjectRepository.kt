@@ -13,7 +13,7 @@
  *
  */
 
-package com.vivid.graff.estimator
+package com.vivid.graff.shared
 
 import com.vivid.graff.Project
 import com.vivid.graff.ProjectDTO

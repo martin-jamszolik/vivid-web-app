@@ -15,18 +15,20 @@
 
 package com.vivid.graff
 
+import com.vivid.graff.config.H2DatabaseConfiguration
 import com.vivid.graff.security.Role
 import com.vivid.graff.security.User
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Primary
+import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsPasswordService
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.provisioning.UserDetailsManager
 
 @TestConfiguration
-class SpringSecurityTestConfiguration {
+class VividTestConfiguration {
 
     @Primary
     @Bean
@@ -43,15 +45,13 @@ class SpringSecurityTestConfiguration {
 
         return VividInMemoryUserDetailsManager(usr1,usr2);
     }
-
 }
 
 
 
-class VividInMemoryUserDetailsManager : UserDetailsManager, UserDetailsPasswordService {
+class VividInMemoryUserDetailsManager(vararg s: UserDetails) : UserDetailsManager, UserDetailsPasswordService {
     private val users = HashMap<String, UserDetails>()
-
-    constructor(vararg s: UserDetails){
+    init {
         for (it in s) {
             createUser(it)
         }

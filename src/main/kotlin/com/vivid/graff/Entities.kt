@@ -17,23 +17,25 @@ package com.vivid.graff
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
+import org.springframework.data.relational.core.mapping.Table
+import java.time.LocalDate
 import java.util.*
 
-
+@Table("project")
 data class Project(
     @Id
     @Column("pp_key")
-    var id: Long = 0,
+    var id: Long? = null,
     @Column("pp_name")
     var title: String = "",
     @Column("el_key")
-    var locationId: Long = 0,
+    var locationId: Long?,
     @Column("e_key")
-    var estimatorId: Long = 0,
+    var estimatorId: Long?,
     @Column("c_key")
-    var companyId: Long = 0,
+    var companyId: Long?,
     @Column("c_key")
-    var clientId: Long = 0,
+    var clientId: Long?,
     @Column("pp_status")
     var status: String = "",
     @Column("pp_date")
@@ -42,15 +44,26 @@ data class Project(
     var owner: String = ""
 )
 
+
+data class Location (
+    @Column("el_key")
+    @Id
+    var id:Long?,
+    var address:String="",
+    var city:String="",
+    var state:String="",
+    var zip:String=""
+)
+
 data class ProjectDTO(
-    var id: Long = 0,
+    var id: Int?,
     var title: String = "",
     var address: String = "",
     var company: String = "",
     var estimator: String = "",
     var client: String? = "",
     var status: String = "",
-    var date: Date? = null
+    var date: LocalDate? = null
 )
 
 

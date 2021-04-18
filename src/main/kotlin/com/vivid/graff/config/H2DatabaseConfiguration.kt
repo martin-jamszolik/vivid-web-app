@@ -33,28 +33,29 @@ import javax.sql.DataSource
 @Configuration
 class H2DatabaseConfiguration(val encoder: PasswordEncoder) {
 
+    companion object {
+        fun firstDataSource(): DataSource {
+            return EmbeddedDatabaseBuilder()
+                .setDataSourceFactory(VividDriverDataSourceFactory())
+                .setName("first")
+                .setType(EmbeddedDatabaseType.H2)
+                .continueOnError(true)
+                .addScript("classpath:templates/h2-ddl.sql")
+                .addScript("classpath:templates/seed-h2-1.sql")
+                .build();
+        }
 
-    fun firstDataSource(): DataSource {
-        return EmbeddedDatabaseBuilder()
-            .setDataSourceFactory( VividDriverDataSourceFactory())
-            .setName("first")
-            .setType(EmbeddedDatabaseType.H2)
-            .continueOnError(true)
-            .addScript("classpath:templates/h2-ddl.sql")
-            .addScript("classpath:templates/seed-h2-1.sql")
-            .build();
-    }
 
-
-    fun secondDataSource(): DataSource {
-        return EmbeddedDatabaseBuilder()
-            .setDataSourceFactory( VividDriverDataSourceFactory())
-            .setName("second")
-            .continueOnError(true)
-            .setType(EmbeddedDatabaseType.H2)
-            .addScript("classpath:templates/h2-ddl.sql")
-            .addScript("classpath:templates/seed-h2-2.sql")
-            .build();
+        fun secondDataSource(): DataSource {
+            return EmbeddedDatabaseBuilder()
+                .setDataSourceFactory(VividDriverDataSourceFactory())
+                .setName("second")
+                .continueOnError(true)
+                .setType(EmbeddedDatabaseType.H2)
+                .addScript("classpath:templates/h2-ddl.sql")
+                .addScript("classpath:templates/seed-h2-2.sql")
+                .build();
+        }
     }
 
     @Bean
@@ -71,6 +72,7 @@ class H2DatabaseConfiguration(val encoder: PasswordEncoder) {
 
         ds.addDS("first", ds1)
         ds.addDS("second", ds2)
+        ds.default(ds1)
         return ds
     }
 
