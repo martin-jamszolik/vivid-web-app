@@ -15,40 +15,56 @@
 
 package com.vivid.graff
 
-import com.vivid.graff.estimator.ProjectRepository
+import com.vivid.graff.shared.ProjectRepository
+import com.vivid.graff.shared.LocationRepository
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.data.jdbc.AutoConfigureDataJdbc
-import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest
-import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.test.context.support.WithUserDetails
-import org.springframework.test.annotation.DirtiesContext
+import java.util.*
 
-@SpringBootTest(classes = [SpringSecurityTestConfiguration::class] )
-class ProjectRepositoryTests {
-
-    init {
-        System.setProperty("jasypt.encryptor.password", "testonlyprofile")
-    }
+class ProjectRepositoryTests: VividApplicationTests() {
 
     @Autowired
-    lateinit var projectRepository: ProjectRepository
+    lateinit var projectRepo: ProjectRepository
+
+    @Autowired
+    lateinit var locationRepo: LocationRepository
 
 
     @Test
-    @WithUserDetails("first_user")
     fun `should find one Project for first client`() {
-        val list = projectRepository.findProjects("%1030 5th Avenue%")
+        val list = projectRepo.findProjects("%1030 5th Avenue%")
         assertThat(list).isNotEmpty
     }
 
     @Test
     @WithUserDetails("second_user")
     fun `should find one Project for second client`() {
-        val list = projectRepository.findProjects("%80 8th Avenue%")
+        val list = projectRepo.findProjects("%80 8th Avenue%")
         assertThat(list).isNotEmpty
+    }
+
+    @Test
+    fun `save new project model`(){
+        val project = Project(null,"Testing",
+            locationRepo.save(
+                Location(null,"123 Main Street","Sarasota","FL","34219")
+            ).id,
+            1,
+            1,
+            1,
+            "Draft",
+            Date(),
+            "owner")
+
+        val saved = projectRepo.save(project)
+        assertThat(saved).isNotNull
+        assertThat(saved.id).isNotNegative
+        assertThat( saved.locationId ).isNotNull
+        assertThat( saved.locationId ).isSameAs(
+            locationRepo.findById(saved.locationId!!).get().id)
+
     }
 
 

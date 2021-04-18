@@ -15,17 +15,14 @@
 
 package com.vivid.graff.estimator
 
-import com.vivid.graff.Project
 import com.vivid.graff.ProjectDTO
-import org.springframework.http.MediaType
-import org.springframework.jdbc.core.BeanPropertyRowMapper
-import org.springframework.jdbc.core.JdbcTemplate
+import com.vivid.graff.shared.ProjectDatabase
 import org.springframework.web.bind.annotation.*
 
 
 @RestController
 @RequestMapping("/api/projects")
-class ProjectController(private val repo: ProjectRepository) {
+class ProjectController(private val repo: ProjectDatabase) {
     companion object {
         val OPERATORS = mapOf(":" to "=")
     }
@@ -37,15 +34,13 @@ class ProjectController(private val repo: ProjectRepository) {
         val regex = Regex("(\\w+?)(:)((\\w|\\s)+?),")
         regex.findAll("$search,").forEach { result: MatchResult ->
             val (criteria, operator, value) = result.destructured
-
-
             when (criteria) {
                 "project" -> query[criteria]=Pair("pp_name like ?","%$value%")
                 "estimator" -> query[criteria]=Pair("e_key ${OPERATORS.getOrDefault(operator,"=")} ? ", value)
             }
         }
 
-        return repo.findProjects( query["project"]!!.second )
+        return repo.projectsByName( query["project"]!!.second )
     }
 
 

@@ -13,17 +13,11 @@
  *
  */
 
-package com.vivid.graff
+package com.vivid.graff.shared
 
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.context.annotation.Import
-import org.springframework.security.test.context.support.WithUserDetails
+import com.vivid.graff.Location
+import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
 
-@Import(VividTestConfiguration::class)
-@SpringBootTest()
-@WithUserDetails("first_user")
-abstract class VividApplicationTests {
-	init {
-		System.setProperty("jasypt.encryptor.password", "testonlyprofile")
-	}
-}
+@Repository
+interface LocationRepository : CrudRepository<Location, Long>
