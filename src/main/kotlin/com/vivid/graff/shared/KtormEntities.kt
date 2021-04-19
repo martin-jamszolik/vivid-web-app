@@ -22,10 +22,10 @@ import java.time.LocalDate
 interface Location : Entity<Location> {
     companion object : Entity.Factory<Location>()
     val id: Int
-    val address: String
-    val city: String
-    val state: String
-    val zip: String
+    var address: String
+    var city: String
+    var state: String
+    var zip: String
 }
 
 interface Company: Entity<Company>{
@@ -52,12 +52,12 @@ interface Estimator: Entity<Estimator> {
 interface Project : Entity<Project> {
     companion object : Entity.Factory<Project>()
     val id:Int
-    val location: Location
-    val estimator: Estimator
-    val company: Company
-    val name:String
-    val tax:BigDecimal
-    val status:String
-    val date: LocalDate
-    val owner:String
+    var location: Location
+    var estimator: Estimator
+    var company: Company
+    var name:String
+    var tax:BigDecimal
+    var status:String
+    var date: LocalDate
+    var owner:String
 }

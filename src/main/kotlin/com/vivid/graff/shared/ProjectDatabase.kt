@@ -18,9 +18,14 @@ package com.vivid.graff.shared
 import com.vivid.graff.ProjectDTO
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
+import org.ktorm.entity.Entity
 import org.ktorm.entity.add
 import org.ktorm.entity.sequenceOf
 import org.ktorm.entity.update
+import org.ktorm.schema.BaseTable
+import org.ktorm.schema.Column
+import org.ktorm.schema.ColumnDeclaring
+import org.ktorm.schema.Table
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
@@ -28,6 +33,24 @@ import org.springframework.transaction.annotation.Transactional
 class ProjectDatabase(val db:Database) {
 
     val projects get() = db.sequenceOf(Projects)
+    val companies get() = db.sequenceOf(Companies)
+    val locations get() = db.sequenceOf(Locations)
+    val estimators get() = db.sequenceOf(Estimators)
+
+    fun from(table: Table<*>): QuerySource {
+        return db.from(table)
+    }
+
+    fun getPrimaryKey(table:Table<*>, columnId: Column<Int>, whereCondition: ColumnDeclaring<Boolean>) :Int? {
+        return db.from(table)
+            .select(columnId)
+            .where( whereCondition )
+            .map { it[columnId] }.first()
+    }
+
+    fun  <T : BaseTable<*>> insert(table:T, block: AssignmentsBuilder.(T) -> Unit ):Int{
+        return db.insertAndGenerateKey(table,block) as Int
+    }
 
     @Transactional
     fun add(entity : Project): Int {
