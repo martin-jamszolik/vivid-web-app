@@ -16,13 +16,13 @@
 package com.vivid.graff.estimator
 
 import com.vivid.graff.ProjectDTO
-import com.vivid.graff.shared.ProjectDatabase
+import com.vivid.graff.shared.ProjectRepository
 import org.springframework.web.bind.annotation.*
 
 
 @RestController
 @RequestMapping("/api/projects")
-class ProjectController(private val repo: ProjectDatabase) {
+class ProjectController(private val repo: ProjectRepository) {
     companion object {
         val OPERATORS = mapOf(":" to "=")
     }

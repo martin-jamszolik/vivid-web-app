@@ -13,27 +13,27 @@
  *
  */
 
-package com.vivid.graff.estimator
+package com.vivid.graff
 
-import com.vivid.graff.shared.Proposal
 import com.vivid.graff.shared.ProposalRepository
-import org.springframework.web.bind.annotation.*
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
 
+class ProposalRepositoryTests: VividApplicationTests() {
+    @Autowired
+    lateinit var proposalRepository: ProposalRepository
 
-@RestController
-@RequestMapping("/api/projects/{projectId}/proposals")
-class ProposalController(private val pr:ProposalRepository) {
-
-    @GetMapping
-    fun getProposals(
-        @PathVariable("projectId") projectId: Int,
-        @RequestParam(name = "search", required = false, defaultValue = "") search: String
-    ): List<Proposal> {
-        return pr.proposalsByProject(projectId)
+    @Test
+    fun `should load all proposal for a project`() {
+        val list = proposalRepository.proposalsByProject(1)
+        assertThat(list).isNotEmpty
     }
 
-    @GetMapping("/{proposalId}")
-    fun getProposal(@PathVariable("proposalId") proposalId: Int): Proposal {
-       return pr.proposalById(proposalId)
+    @Test
+    fun `should get a Proposal with all tasks loaded`(){
+        val proposal = proposalRepository.proposalById(1)
+        assertThat(proposal).isNotNull
+        assertThat(proposal.scopes).isNotEmpty
     }
 }

@@ -16,3 +16,9 @@ VALUES(1, 1, '2021-03-12 21:42:25.000', 'Roof Project', 1, NULL, 0, 'Draft', NUL
 
 INSERT INTO `task` (pst_key, pr_key, pst_descr, c_cost, pst_id, s_name, t_name, c_qty, c_unit, t_pr, t_pr_type, t_type)
 VALUES(1, 1, 'Apply 1 Layer of Siplast Teranap- 1M Sand to the surfaces', 9000, '1)', 'A) Roof Replacement Revised 2021', 'Task', 1.000, 'Torch', 0.00, 0,'Default');
+
+INSERT INTO `task` (pst_key, pr_key, pst_descr, c_cost, pst_id, s_name, t_name, c_qty, c_unit, t_pr, t_pr_type, t_type)
+VALUES(2, 1, 'existing window and door opening including new galvanized steel lintel and waterproofing.', 1750.00, '2)', 'A) Roof Replacement Revised 2021', 'Reconstruct', 2.000, 'Loc', 0.00, 0,'Default');
+
+INSERT INTO `task` (pst_key, pr_key, pst_descr, c_cost, pst_id, s_name, t_name, c_qty, c_unit, t_pr, t_pr_type, t_type)
+VALUES(3, 1, 'and apply new liquid membrane over all base flashing up to the coping stone.', 22, '3)', 'A) Roof Replacement Revised 2021', 'Prepare', 1200.000, 'sf', 0.00, 0,'Default');

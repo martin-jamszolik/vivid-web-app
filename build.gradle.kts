@@ -36,13 +36,12 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web") {
-        exclude(module="spring-boot-starter-tomcat")
+        exclude(module = "spring-boot-starter-tomcat")
     }
     implementation("org.springframework.boot:spring-boot-starter-undertow")
 
-    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
-    {
-        exclude(group="com.zaxxer",module="HikariCP")
+    implementation("org.springframework.boot:spring-boot-starter-data-jdbc") {
+        exclude(group = "com.zaxxer", module = "HikariCP")
     }
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.ktorm:ktorm-core:3.3.0")
@@ -61,9 +60,9 @@ dependencies {
 
     testImplementation("com.ninja-squad:springmockk:3.0.1")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude(module="junit")
-        exclude(module="junit-vintage-engine")
-        exclude(module="mockito-core")
+        exclude(module = "junit")
+        exclude(module = "junit-vintage-engine")
+        exclude(module = "mockito-core")
     }
     testImplementation("org.springframework.security:spring-security-test")
 }
