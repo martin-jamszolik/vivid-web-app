@@ -6,7 +6,7 @@ export class Proposal {
     projectId: number;
     title: string;
     date: Date;
-    type: string;
+    profitType: string;
     status: string;
     authorized: Date;
     editable = false;

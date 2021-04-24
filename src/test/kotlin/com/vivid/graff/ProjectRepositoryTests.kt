@@ -15,57 +15,84 @@
 
 package com.vivid.graff
 
-import com.vivid.graff.shared.ProjectRepository
-import com.vivid.graff.shared.LocationRepository
+import com.vivid.graff.shared.*
+import com.vivid.graff.shared.Location
+import com.vivid.graff.shared.Project
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.ktorm.dsl.eq
+import org.ktorm.entity.add
+import org.ktorm.entity.find
+import org.ktorm.entity.first
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.test.context.support.WithUserDetails
-import java.util.*
+import java.time.LocalDate
 
-class ProjectRepositoryTests: VividApplicationTests() {
-
+class ProjectRepositoryTests : VividApplicationTests() {
     @Autowired
-    lateinit var projectRepo: ProjectRepository
-
-    @Autowired
-    lateinit var locationRepo: LocationRepository
-
+    lateinit var projectRepository: ProjectRepository
 
     @Test
-    fun `should find one Project for first client`() {
-        val list = projectRepo.findProjects("%1030 5th Avenue%")
+    fun `query for project list using Kotlin ORM`() {
+        val list = projectRepository.projectsByName("1030 5th Avenue")
         assertThat(list).isNotEmpty
     }
 
     @Test
-    @WithUserDetails("second_user")
-    fun `should find one Project for second client`() {
-        val list = projectRepo.findProjects("%80 8th Avenue%")
-        assertThat(list).isNotEmpty
+    fun `find project by Id`() {
+        val project = projectRepository.projects.find { it.id eq 1 }
+        assertThat(project).isNotNull
+        assertThat(project!!.id).isSameAs(1)
+
+    }
+
+
+    @Test
+    fun `should save a new Project using existing references`() {
+
+        val locationId = projectRepository.getPrimaryKey(
+            Locations,
+            Locations.id, (Locations.address eq "123 Main Ave")
+        )
+        assertThat(locationId).isEqualTo(1)
+
+        val companyId = projectRepository.getPrimaryKey(Companies, Companies.id, (Companies.name eq "First LLC"))
+        assertThat(companyId).isEqualTo(1)
+
+        val estimatorId = projectRepository.getPrimaryKey(Estimators, Estimators.id, (Estimators.name eq "Administrator"))
+
+        val projectId = projectRepository.insert(Projects) {
+            set(it.companyId, companyId)
+            set(it.locationId, locationId)
+            set(it.estimatorId, estimatorId)
+            set(it.date, LocalDate.now())
+            set(it.name, "My Favorite Project")
+            set(it.status, "Draft")
+        }
+
+        val projectEntity = projectRepository.projects.find { it.id eq projectId }
+
+        assertThat(projectEntity).isNotNull
+        assertThat("My Favorite Project").isEqualTo(projectEntity!!.name)
+
     }
 
     @Test
-    fun `save new project model`(){
-        val project = Project(null,"Testing",
-            locationRepo.save(
-                Location(null,"123 Main Street","Sarasota","FL","34219")
-            ).id,
-            1,
-            1,
-            1,
-            "Draft",
-            Date(),
-            "owner")
+    fun `should add new Entity`() {
+        val loc = Location { address = "1234 Main";city = "Test";state = "FL";zip = "1234" }
+        projectRepository.locations.add(loc)
+        assertThat(loc.id).isNotNull
 
-        val saved = projectRepo.save(project)
-        assertThat(saved).isNotNull
-        assertThat(saved.id).isNotNegative
-        assertThat( saved.locationId ).isNotNull
-        assertThat( saved.locationId ).isSameAs(
-            locationRepo.findById(saved.locationId!!).get().id)
-
+        val anotherOne = Project {
+            name = "Jerry Project"
+            location = loc
+            company = projectRepository.companies.first { it.id eq 1 }
+            estimator = projectRepository.estimators.first { it.id eq 1 }
+            date = LocalDate.now()
+            status = "Draft"
+        }
+        val inserted = projectRepository.projects.add(anotherOne)
+        assertThat(inserted).isEqualTo(1)
+        assertThat(anotherOne.id).isNotNull
     }
-
 
 }

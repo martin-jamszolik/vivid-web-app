@@ -15,8 +15,6 @@
 
 package com.vivid.graff.shared
 
-import org.ktorm.database.Database
-import org.ktorm.entity.sequenceOf
 import org.ktorm.schema.*
 
 object Locations : Table<Location>("location") {
@@ -56,4 +54,31 @@ object Estimators: Table<Estimator>("estimator"){
     val name = varchar("e_name").bindTo { it.name }
     val isAdmin = boolean("e_admin").bindTo { it.isAdmin }
     val isVisible = boolean("visible").bindTo { it.isVisible }
+}
+
+object Proposals: Table<Proposal>("proposal"){
+    val id = int("pr_key").primaryKey().bindTo { it.id }
+    val projectId = int("pp_key").bindTo{ it.projectId }
+    val date = date("pr_date").bindTo { it.date }
+    val name = varchar("pr_name").bindTo { it.title }
+    val editable = boolean("editable").bindTo { it.editable }
+    val profit = decimal("p_pr").bindTo { it.profit }
+    val profitType= int("p_pr_type").bindTo { it.profitType }
+    val status =varchar ("pr_status").bindTo { it.status }
+    val authorized = date("authorize").bindTo { it.authorized }
+}
+
+object Tasks: Table<Task>("task"){
+    val id = int("pst_key").primaryKey().bindTo { it.id }
+    val proposalId = int("pr_key").bindTo { it.proposalId}
+    val detail = varchar("pst_descr").bindTo { it.detail }
+    val cost = decimal("c_cost").bindTo { it.cost }
+    val taskIdentifier = varchar("pst_id").bindTo { it.taskIdentifier }
+    val scope = varchar("s_name").bindTo { it.scope }
+    val name = varchar("t_name").bindTo { it.name }
+    val qty = decimal("c_qty").bindTo { it.qty }
+    val unit = varchar("c_unit").bindTo { it.unit }
+    val profit = decimal("t_pr").bindTo { it.profit }
+    val profitType = int("t_pr_type").bindTo { it.profitType }
+    val taskType = varchar("t_type").bindTo { it.taskType }
 }

@@ -15,29 +15,65 @@
 
 package com.vivid.graff.shared
 
-import com.vivid.graff.Project
 import com.vivid.graff.ProjectDTO
-import org.springframework.data.jdbc.repository.query.Query
-import org.springframework.data.repository.CrudRepository
-import org.springframework.jdbc.core.BeanPropertyRowMapper
+import org.ktorm.database.Database
+import org.ktorm.dsl.*
+import org.ktorm.entity.Entity
+import org.ktorm.entity.add
+import org.ktorm.entity.sequenceOf
+import org.ktorm.entity.update
+import org.ktorm.schema.BaseTable
+import org.ktorm.schema.Column
+import org.ktorm.schema.ColumnDeclaring
+import org.ktorm.schema.Table
 import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Transactional
 
 @Repository
-interface ProjectRepository : CrudRepository<Project, Long> {
+class ProjectRepository(db:Database) : BaseRepository(db) {
 
-    @Query("""
-        SELECT pp_key as id,
-                   pp_name as title,
-                   address as address,
-                   pp_status as status, 
-                   pp_date as date,
-                   c_name as company,
-                   e_name as estimator
-              FROM `project` p 
-              INNER JOIN `location` e USING (el_key)
-              INNER JOIN company c  USING (c_key)
-              INNER JOIN estimator e2 USING ( e_key)
-              WHERE pp_name like :name
-    """)
-    fun findProjects(name:String): List<ProjectDTO>
+    val projects get() = db.sequenceOf(Projects)
+    val companies get() = db.sequenceOf(Companies)
+    val locations get() = db.sequenceOf(Locations)
+    val estimators get() = db.sequenceOf(Estimators)
+
+    @Transactional
+    fun add(entity : Project): Int {
+       return projects.add(entity)
+    }
+
+    @Transactional
+    fun save(entity:Project): Int {
+        return projects.update(entity)
+    }
+
+    fun projectsByName(name: String): List<ProjectDTO> {
+        return db
+            .from(Projects)
+            .innerJoin(Locations, on = Projects.locationId eq Locations.id)
+            .innerJoin(Companies, on = Projects.companyId eq Companies.id)
+            .innerJoin(Estimators, on = Projects.estimatorId eq Estimators.id)
+            .select(
+                Projects.id,
+                Projects.name,
+                Locations.address,
+                Projects.status,
+                Projects.date,
+                Companies.name,
+                Estimators.name
+            )
+            .where(Projects.name like "%$name%")
+            .map { row ->
+                ProjectDTO(
+                    id = row[Projects.id],
+                    title = row[Projects.name].orEmpty(),
+                    address = row[Locations.address].orEmpty(),
+                    company = row[Companies.name].orEmpty(),
+                    estimator = row[Estimators.name].orEmpty(),
+                    client = "",
+                    status = row[Projects.status].orEmpty(),
+                    date = row[Projects.date]
+                )
+            }
+    }
 }
