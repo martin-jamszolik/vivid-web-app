@@ -57,39 +57,6 @@ class MultiDatabaseConfiguration : AbstractJdbcConfiguration() {
     }
 
     @Bean
-    override fun jdbcMappingContext(
-        namingStrategy: Optional<NamingStrategy>,
-        customConversions: JdbcCustomConversions
-    ): JdbcMappingContext {
-        val mappingContext = super.jdbcMappingContext(namingStrategy, customConversions)
-        // The following setting is key to use our custom NamingStrategy below.
-        mappingContext.isForceQuote = false
-        return mappingContext
-    }
-
-    @Bean
-    fun namingStrategy(): NamingStrategy {
-        return object: NamingStrategy {
-            override fun getTableName(type: Class<*>): String {
-                return super.getTableName(type).toLowerCase()
-            }
-             override fun getColumnName(property: RelationalPersistentProperty): String {
-                return super.getColumnName(property).toLowerCase()
-            }
-        }
-    }
-
-    @Bean
-    override fun jdbcDialect(operations: NamedParameterJdbcOperations): Dialect {
-        return H2Dialect.INSTANCE
-    }
-
-    @Bean
-    fun namedParameterJdbcOperations(dataSource: DataSource): NamedParameterJdbcOperations {
-        return NamedParameterJdbcTemplate(dataSource)
-    }
-
-    @Bean
     fun transactionManager(dataSource: DataSource): TransactionManager {
         return DataSourceTransactionManager(dataSource)
     }
