@@ -20,29 +20,17 @@ import org.springframework.aop.framework.ProxyFactoryBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
-import org.springframework.data.jdbc.core.convert.JdbcCustomConversions
-import org.springframework.data.jdbc.core.mapping.JdbcMappingContext
-import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration
-import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories
-import org.springframework.data.relational.core.dialect.Dialect
-import org.springframework.data.relational.core.dialect.H2Dialect
-import org.springframework.data.relational.core.mapping.NamingStrategy
-import org.springframework.data.relational.core.mapping.RelationalPersistentProperty
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.jdbc.datasource.DataSourceTransactionManager
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.transaction.TransactionManager
 import org.springframework.transaction.annotation.EnableTransactionManagement
-import java.util.*
 import javax.sql.DataSource
 
 
 @Configuration
 @EnableTransactionManagement
-@EnableJdbcRepositories(basePackages = ["com.vivid.graff"] )
-class MultiDatabaseConfiguration : AbstractJdbcConfiguration() {
+class MultiDatabaseConfiguration {
 
     @Bean
     fun encoder(): PasswordEncoder = BCryptPasswordEncoder()

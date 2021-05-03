@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -23,13 +23,15 @@ export class SearchService {
 
   /* GET projects */
   search(term: string): Observable<Project[]> {
-    if (!term.trim()) {
-      return of([]);
-    }
-    return this.http.get<Project[]>(`${this.projectsUrl}?search=project:${term}`)
-    .pipe(
-      catchError(this.handleError<Project[]>('searchProjects', []))
-    );
+    const params = new HttpParams()
+      .set('search', term)
+      .set('offset', '20')
+      .set("limit",'100');
+
+    return this.http.get<Project[]>(`${this.projectsUrl}`,{params})
+      .pipe(
+        catchError(this.handleError<Project[]>('searchProjects', []))
+      );
   }
 
   /**

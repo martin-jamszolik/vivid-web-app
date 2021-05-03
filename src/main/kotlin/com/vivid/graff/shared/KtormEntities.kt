@@ -102,6 +102,17 @@ data class Scope(
     }
 }
 
+data class ProjectDTO(
+    var id: Int?,
+    var title: String = "",
+    var address: String = "",
+    var company: String = "",
+    var estimator: String = "",
+    var client: String? = "",
+    var status: String = "",
+    var date: LocalDate? = null
+)
+
 data class Page<T>(
     val offset: Int,
     val limit: Int,

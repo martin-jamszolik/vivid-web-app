@@ -16,7 +16,6 @@
 package com.vivid.graff.security
 
 import com.vivid.graff.MultiDataSource
-import com.vivid.graff.UserSession
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -32,7 +31,7 @@ class VividAuthenticationProvider(
 
     override fun retrieveUser(username: String?,
                               authentication: UsernamePasswordAuthenticationToken): UserDetails {
-        val usrSession = authentication.credentials as UserSession
+        val usrSession = authentication.credentials as UserRequest
         return doUserLookup(usrSession)
 
     }
@@ -51,7 +50,7 @@ class VividAuthenticationProvider(
             )
         }
 
-        val usrSession = authentication.credentials as UserSession
+        val usrSession = authentication.credentials as UserRequest
         logger.debug("We have our user set as ${usrSession.username} in ${usrSession.client}")
 
         if (!encoder.matches(usrSession.password, userDetails.password)) {
@@ -62,7 +61,7 @@ class VividAuthenticationProvider(
 
     }
 
-    private fun doUserLookup(user: UserSession): UserDetails {
+    private fun doUserLookup(user: UserRequest): UserDetails {
 
         val ds = dsService.getSourceMap()[user.client]
             ?: throw BadCredentialsException(
