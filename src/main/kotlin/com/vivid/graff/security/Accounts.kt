@@ -25,6 +25,11 @@ data class Role(val id: Long,val roleName: String) : GrantedAuthority {
     }
 }
 
+data class UserRequest(var username: String = "", var password: String = "", var client: String = "") {
+    override fun toString(): String {
+        return "$client-$username"
+    }
+}
 
 data class User(val id:Long,
                 private val username:String,

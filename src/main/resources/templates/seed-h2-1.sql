@@ -22,3 +22,9 @@ VALUES(2, 1, 'existing window and door opening including new galvanized steel li
 
 INSERT INTO `task` (pst_key, pr_key, pst_descr, c_cost, pst_id, s_name, t_name, c_qty, c_unit, t_pr, t_pr_type, t_type)
 VALUES(3, 1, 'and apply new liquid membrane over all base flashing up to the coping stone.', 22, '3)', 'A) Roof Replacement Revised 2021', 'Prepare', 1200.000, 'sf', 0.00, 0,'Default');
+
+INSERT INTO `task` (pst_key, pr_key, pst_descr, c_cost, pst_id, s_name, t_name, c_qty, c_unit, t_pr, t_pr_type, t_type)
+VALUES(4, 1, 'and install new metal door with frame including 2 coats finish paint.', 1700.00, '4)', 'B) New Bathroom', 'Provide', 1.000, 'Loc', 0.00, 0,'Default');
+
+INSERT INTO `task` (pst_key, pr_key, pst_descr, c_cost, pst_id, s_name, t_name, c_qty, c_unit, t_pr, t_pr_type, t_type)
+VALUES(5, 1, 'and install new light fixtures and 2 outlets.', 1, '5)', 'B) New Bathroom', 'Provide', 800.000, 'ls', 0.00, 0,'Default');

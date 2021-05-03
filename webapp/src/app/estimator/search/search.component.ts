@@ -24,12 +24,20 @@ export class SearchComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.projects = this.searchService.lastSearchResult;
+    if (this.searchService.lastSearchResult){
+      this.projects = this.searchService.lastSearchResult
+    }else{
+      this.fetchProjects()
+    }
+  }
+
+  fetchProjects(){
+    this.searchService.search( this.query.projectName)
+    .subscribe( list => this.searchService.lastSearchResult = this.projects = list );
   }
 
   onSubmit() {
-    this.searchService.search( this.query.projectName)
-    .subscribe( list => this.searchService.lastSearchResult = this.projects = list );
+    this.fetchProjects()
   }
 
   onRowSelect(event) {

@@ -3,7 +3,7 @@
 ### Tools
 For best setup experience, recommend the following.
 
-* Install [SDKMAN](https://sdkman.io/) so we can manage gradle and it's depedencies.
+* Install [SDKMAN](https://sdkman.io/) so we can manage gradle, and it's dependencies.
 
 ```shell
 sdk list java
@@ -16,7 +16,7 @@ sdk install gradle
 ### Build and Run
 This project helps you manage both frameworks (Angular, Spring Boot) with just Gradle:
 
-* Execute the following to get a quick start
+* Execute the following for a quick start
 
 ```shell
 gradle copyAngularNg bootRun
@@ -37,7 +37,7 @@ The above will let you issue the following URLs:
 * http://first.local.me:8080
 * http://second.local.me:8080
 
-At which point the application will switch between two different data sources ( tenants ), serving 
+At this point, the application will switch between two different data sources ( tenants ), serving 
 two different customers with the same runtime.  Each browser session gets a session token, this token
 is authenticated against the subdomain to make sure you can access the service.
 

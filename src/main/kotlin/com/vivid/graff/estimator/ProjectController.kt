@@ -15,32 +15,36 @@
 
 package com.vivid.graff.estimator
 
-import com.vivid.graff.ProjectDTO
+
+import com.vivid.graff.shared.ProjectDTO
 import com.vivid.graff.shared.ProjectRepository
-import org.springframework.web.bind.annotation.*
+import com.vivid.graff.shared.Projects
+import org.ktorm.dsl.isNotNull
+import org.ktorm.dsl.like
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 
 
 @RestController
 @RequestMapping("/api/projects")
 class ProjectController(private val repo: ProjectRepository) {
-    companion object {
-        val OPERATORS = mapOf(":" to "=")
-    }
 
     @GetMapping
-    fun search(@RequestParam("search") search: String): List<ProjectDTO> {
+    fun search(
+        @RequestParam("search") search: String,
+        @RequestParam("offset") offset: Int,
+        @RequestParam("limit") limit: Int
+    ): List<ProjectDTO> {
 
-        val query = HashMap<String,Pair<String,String>>()
-        val regex = Regex("(\\w+?)(:)((\\w|\\s)+?),")
-        regex.findAll("$search,").forEach { result: MatchResult ->
-            val (criteria, operator, value) = result.destructured
-            when (criteria) {
-                "project" -> query[criteria]=Pair("pp_name like ?","%$value%")
-                "estimator" -> query[criteria]=Pair("e_key ${OPERATORS.getOrDefault(operator,"=")} ? ", value)
-            }
-        }
+        return if (search.isNotBlank())
+            repo.projectsWhere(Projects.name like "%$search%")
+        else
+            repo.projectsWhere(Projects.name.isNotNull())
 
-        return repo.projectsByName( query["project"]!!.second )
+        //Page(offset, limit, projects.size, currentList = projects)
+        //return projects
     }
 
 

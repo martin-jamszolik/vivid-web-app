@@ -18,12 +18,15 @@ package com.vivid.graff
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
 import org.springframework.security.test.context.support.WithUserDetails
+import org.springframework.test.context.ActiveProfiles
 
 @Import(VividTestConfiguration::class)
 @SpringBootTest()
+@ActiveProfiles("test")
 @WithUserDetails("first_user")
 abstract class VividApplicationTests {
 	init {
 		System.setProperty("jasypt.encryptor.password", "testonlyprofile")
+		System.setProperty("spring.flyway.enabled","false")
 	}
 }

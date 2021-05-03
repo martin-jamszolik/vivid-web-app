@@ -20,29 +20,17 @@ import org.springframework.aop.framework.ProxyFactoryBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
-import org.springframework.data.jdbc.core.convert.JdbcCustomConversions
-import org.springframework.data.jdbc.core.mapping.JdbcMappingContext
-import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration
-import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories
-import org.springframework.data.relational.core.dialect.Dialect
-import org.springframework.data.relational.core.dialect.H2Dialect
-import org.springframework.data.relational.core.mapping.NamingStrategy
-import org.springframework.data.relational.core.mapping.RelationalPersistentProperty
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.jdbc.datasource.DataSourceTransactionManager
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.transaction.TransactionManager
 import org.springframework.transaction.annotation.EnableTransactionManagement
-import java.util.*
 import javax.sql.DataSource
 
 
 @Configuration
 @EnableTransactionManagement
-@EnableJdbcRepositories(basePackages = ["com.vivid.graff"] )
-class MultiDatabaseConfiguration : AbstractJdbcConfiguration() {
+class MultiDatabaseConfiguration {
 
     @Bean
     fun encoder(): PasswordEncoder = BCryptPasswordEncoder()
@@ -54,39 +42,6 @@ class MultiDatabaseConfiguration : AbstractJdbcConfiguration() {
         proxy.targetSource = ds
         proxy.setProxyInterfaces(arrayOf(javax.sql.DataSource::class.java))
         return proxy.getObject() as DataSource
-    }
-
-    @Bean
-    override fun jdbcMappingContext(
-        namingStrategy: Optional<NamingStrategy>,
-        customConversions: JdbcCustomConversions
-    ): JdbcMappingContext {
-        val mappingContext = super.jdbcMappingContext(namingStrategy, customConversions)
-        // The following setting is key to use our custom NamingStrategy below.
-        mappingContext.isForceQuote = false
-        return mappingContext
-    }
-
-    @Bean
-    fun namingStrategy(): NamingStrategy {
-        return object: NamingStrategy {
-            override fun getTableName(type: Class<*>): String {
-                return super.getTableName(type).toLowerCase()
-            }
-             override fun getColumnName(property: RelationalPersistentProperty): String {
-                return super.getColumnName(property).toLowerCase()
-            }
-        }
-    }
-
-    @Bean
-    override fun jdbcDialect(operations: NamedParameterJdbcOperations): Dialect {
-        return H2Dialect.INSTANCE
-    }
-
-    @Bean
-    fun namedParameterJdbcOperations(dataSource: DataSource): NamedParameterJdbcOperations {
-        return NamedParameterJdbcTemplate(dataSource)
     }
 
     @Bean

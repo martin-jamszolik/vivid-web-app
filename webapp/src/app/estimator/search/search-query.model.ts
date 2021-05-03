@@ -1,6 +1,6 @@
 export class SearchQuery {
 
-    projectName: string;
+    projectName: string = '';
     estimator = 'ALL';
 
 

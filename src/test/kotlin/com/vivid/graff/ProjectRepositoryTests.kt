@@ -21,6 +21,7 @@ import com.vivid.graff.shared.Project
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.ktorm.dsl.eq
+import org.ktorm.dsl.like
 import org.ktorm.entity.add
 import org.ktorm.entity.find
 import org.ktorm.entity.first
@@ -33,7 +34,7 @@ class ProjectRepositoryTests : VividApplicationTests() {
 
     @Test
     fun `query for project list using Kotlin ORM`() {
-        val list = projectRepository.projectsByName("1030 5th Avenue")
+        val list = projectRepository.projectsWhere(Projects.name like "%1030 5th Ave%")
         assertThat(list).isNotEmpty
     }
 

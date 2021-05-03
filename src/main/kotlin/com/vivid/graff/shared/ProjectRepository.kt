@@ -15,22 +15,18 @@
 
 package com.vivid.graff.shared
 
-import com.vivid.graff.ProjectDTO
+
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
-import org.ktorm.entity.Entity
 import org.ktorm.entity.add
 import org.ktorm.entity.sequenceOf
 import org.ktorm.entity.update
-import org.ktorm.schema.BaseTable
-import org.ktorm.schema.Column
 import org.ktorm.schema.ColumnDeclaring
-import org.ktorm.schema.Table
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 
 @Repository
-class ProjectRepository(db:Database) : BaseRepository(db) {
+class ProjectRepository(db: Database) : BaseRepository(db) {
 
     val projects get() = db.sequenceOf(Projects)
     val companies get() = db.sequenceOf(Companies)
@@ -38,16 +34,16 @@ class ProjectRepository(db:Database) : BaseRepository(db) {
     val estimators get() = db.sequenceOf(Estimators)
 
     @Transactional
-    fun add(entity : Project): Int {
-       return projects.add(entity)
+    fun add(entity: Project): Int {
+        return projects.add(entity)
     }
 
     @Transactional
-    fun save(entity:Project): Int {
+    fun save(entity: Project): Int {
         return projects.update(entity)
     }
 
-    fun projectsByName(name: String): List<ProjectDTO> {
+    fun projectsWhere(condition: ColumnDeclaring<Boolean>): List<ProjectDTO> {
         return db
             .from(Projects)
             .innerJoin(Locations, on = Projects.locationId eq Locations.id)
@@ -62,7 +58,7 @@ class ProjectRepository(db:Database) : BaseRepository(db) {
                 Companies.name,
                 Estimators.name
             )
-            .where(Projects.name like "%$name%")
+            .where(condition)
             .map { row ->
                 ProjectDTO(
                     id = row[Projects.id],

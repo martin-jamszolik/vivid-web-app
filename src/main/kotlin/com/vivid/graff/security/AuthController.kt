@@ -16,7 +16,6 @@
 package com.vivid.graff.security
 
 import com.vivid.graff.SubdomainUtil
-import com.vivid.graff.UserSession
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
@@ -35,7 +34,7 @@ class AuthController(private val authService: AuthService) {
 
     @PostMapping("/login")
     fun processLogin(
-        @RequestBody requestUser: UserSession,
+        @RequestBody requestUser: UserRequest,
         request: HttpServletRequest,
         response: HttpServletResponse
     ): ResponseEntity<User> {

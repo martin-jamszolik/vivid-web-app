@@ -15,7 +15,6 @@
 
 package com.vivid.graff.security
 
-import com.vivid.graff.UserSession
 import com.vivid.graff.logger
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -33,7 +32,7 @@ import javax.servlet.http.HttpServletResponse
 class AuthService(val authManager: AuthenticationManager) {
     private val logger by logger()
 
-    fun login(requestUser: UserSession): ResponseEntity<User> {
+    fun login(requestUser: UserRequest): ResponseEntity<User> {
 
         val authenticationTokenRequest = UsernamePasswordAuthenticationToken(requestUser.username, requestUser)
         return try {
@@ -43,7 +42,7 @@ class AuthService(val authManager: AuthenticationManager) {
 
             val user = authentication.principal as User
             logger.info("Logged in user: {}", user)
-            ResponseEntity(user,HttpStatus.OK)
+            ResponseEntity(user, HttpStatus.OK)
         } catch (ex: BadCredentialsException) {
             ResponseEntity(HttpStatus.BAD_REQUEST)
         }
@@ -54,9 +53,10 @@ class AuthService(val authManager: AuthenticationManager) {
         val authentication = SecurityContextHolder.getContext().authentication
         if (authentication != null) {
             SecurityContextLogoutHandler().logout(
-                    request,
-                    response,
-                    authentication)
+                request,
+                response,
+                authentication
+            )
         }
         return ResponseEntity(HttpStatus.OK)
     }
