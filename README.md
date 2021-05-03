@@ -1,3 +1,5 @@
+![CI Checked](https://github.com/martin-jamszolik/vivid-web-app/actions/workflows/gradle.yml/badge.svg)
+
 # Vivid Web Application
 A composition of the latest Angular and Kotlin Spring Web technology to showcase a modern,
 data driven business application.  Among various other goals, we hope to help others 
