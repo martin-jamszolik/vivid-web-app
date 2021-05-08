@@ -15,41 +15,22 @@
 
 <form (ngSubmit)="onSubmit()" #estimatorForm="ngForm">
 
-    <div class="card">
-        <h5 class="card-header">Search Proposals</h5>
-        <div class="card-body">
-            <div class="form-row">
-
-                <div class="form-group col-md-10">
-                    <label for="inputProject">Project Name or Address</label>
-                    <input type="text" class="form-control" id="inputProject" name="inputProject" placeholder="Project Name"
-                    [(ngModel)]="query.projectName">
-                </div>
-
-                <div class="form-group col">
-                    <div style="margin: 2em;"></div>
-                    <div>
-                        <button type="submit" id="InputSearchBtn" class="btn btn-primary align-baseline">Search</button>
-                    </div>
-                </div>
-
+    <div class="p-grid p-flex-column">
+        <div class="p-col">
+            <div class="p-inputgroup">
+                <button type="submit" id="InputSearchBtn" pButton pRipple label="Search"></button>
+                <input type="text" pInputText id="inputProject" name="inputProject" [(ngModel)]="query.projectName"
+                    placeholder="Project Name or Address">
             </div>
         </div>
-      </div>
-
-
-
-
-
-
-    <div class="form-row" style="margin-top: 0.8em;">
-        <div class="col">
+        <div class="p-col">
             <p-table [value]="projects" selectionMode="single" [(selection)]="selectedProject" dataKey="id"
                 (onRowSelect)="onRowSelect($event)">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Title</th>
-                        <th pSortableColumn="date">Date <p-sortIcon field="name"></p-sortIcon></th>
+                        <th pSortableColumn="date">Date <p-sortIcon field="name"></p-sortIcon>
+                        </th>
                         <th>Estimator</th>
                         <th>Address</th>
                         <th>Status</th>
