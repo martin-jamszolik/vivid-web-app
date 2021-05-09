@@ -50,10 +50,10 @@ class VividAuthenticationProvider(
             )
         }
 
-        val usrSession = authentication.credentials as UserRequest
-        logger.debug("We have our user set as ${usrSession.username} in ${usrSession.client}")
+        val userRequest = authentication.credentials as UserRequest
+        logger.debug("We have our user set as ${userRequest.username} in ${userRequest.client}")
 
-        if (!encoder.matches(usrSession.password, userDetails.password)) {
+        if (!encoder.matches(userRequest.password, userDetails.password)) {
             throw BadCredentialsException(
                 "Bad Credentials for ${userDetails.username}. Authentication failed"
             )
