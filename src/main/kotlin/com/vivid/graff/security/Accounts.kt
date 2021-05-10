@@ -31,6 +31,8 @@ data class UserRequest(var username: String = "", var password: String = "", var
     }
 }
 
+data class JwtSettings(val key:String, val header:String,val cookie:String,val prefix:String, val expire:Long)
+
 data class User(val id:Long,
                 private val username:String,
                 private val password:String,

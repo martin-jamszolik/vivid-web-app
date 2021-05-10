@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import * as moment from "moment";
 
 import { User } from '@app/shared/models';
 
@@ -22,29 +23,47 @@ export class AccountService {
         return this.userSubject.value;
     }
 
-    login(username, password): Observable<HttpResponse<any>> {
+    login(username: string, password: string): Observable<HttpResponse<string>> {
 
-        return this.http.post<any>('auth/login', { username, password }, { observe: 'response' })
+        return this.http.post<any>('auth/jwt/login', { username, password })
         .pipe(
-            map( (response: HttpResponse<any>) => {
-                if (response.status === 200) {
-                    this.userSubject.next( new User(username));
-                } else {
-                    this.userSubject.next( null);
-                }
-                return response;
+            map( (res: any) => {
+                this.setSession(res)
+                return res;
             })
         );
 
     }
 
+    public isLoggedIn() {
+        return moment().isBefore(this.getExpiration());
+    }
+
+    isLoggedOut() {
+        return !this.isLoggedIn();
+    }
+
+    getExpiration() {
+        const expiration = localStorage.getItem("vivid_expires_at");
+        const expiresAt = JSON.parse(expiration);
+        return moment(expiresAt);
+    }  
+
+    private setSession(tokenPayload) {
+        const expiresAt = moment( tokenPayload.expires * 1000)
+
+        localStorage.setItem('vivid_id_token', tokenPayload.token);
+        localStorage.setItem("vivid_expires_at", JSON.stringify(expiresAt.valueOf()) );
+    }  
+
     clearUser(){
         this.userSubject.next(null);
+        localStorage.removeItem("vivid_id_token");
+        localStorage.removeItem("vivid_expires_at");
     }
 
     logout() {
-        this.userSubject.next(null);
-        return this.http.post('auth/logout', {});
+      this.clearUser
     }
 
 }

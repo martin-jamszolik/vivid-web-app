@@ -72,7 +72,7 @@ interface Proposal: Entity<Proposal> {
     val title: String
     val editable: Boolean
     val profit: BigDecimal
-    val profitType: Int
+    val type: Int
     val status : String
     val authorized: LocalDate
     var scopes: MutableList<Scope>

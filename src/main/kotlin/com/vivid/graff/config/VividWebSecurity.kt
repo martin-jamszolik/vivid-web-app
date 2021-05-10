@@ -17,8 +17,8 @@ package com.vivid.graff.config
 
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties
 import com.vivid.graff.MultiDataSource
-import com.vivid.graff.security.EncryptService
-import com.vivid.graff.security.VividAuthenticationProvider
+import com.vivid.graff.security.*
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
@@ -27,6 +27,7 @@ import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.HttpStatusEntryPoint
 
@@ -37,6 +38,7 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint
 class VividWebSecurity
 (private val dsService: MultiDataSource,
  private val encoder: PasswordEncoder,
+ @Value("\${jwt.secret.passphrase}") private val passphrase :String,
  private val encryptService: EncryptService) : WebSecurityConfigurerAdapter() {
 
 
@@ -47,6 +49,10 @@ class VividWebSecurity
         return super.authenticationManagerBean()
     }
 
+    @Bean
+    fun authService(): AuthService {
+        return AuthService(authenticationManagerBean())
+    }
 
     @Bean
     fun authenticationProvider(): AuthenticationProvider {
@@ -57,16 +63,21 @@ class VividWebSecurity
         http.exceptionHandling()
                 .authenticationEntryPoint(HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 .and()
-                .logout()
-                .deleteCookies("JSESSIONID")
-                .and()
                 .authorizeRequests()
-                .antMatchers("/auth/login","/index.html","/","/*.js","/*.css","/favicon.ico").permitAll()
+                .antMatchers("/auth/jwt/login","/index.html","/","/*.js","/*.css","/favicon.ico").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
                 .authenticationProvider(authenticationProvider())
+                .addFilter(JWTAuthenticationFilter(authService(),jwtProperties()))
+                .addFilter(JWTAuthorizationFilter(authenticationManager(),jwtProperties()))
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+    }
+
+    @Bean
+    fun jwtProperties():JwtSettings {
+        return JwtSettings(passphrase,"Authorization","auth-session","Bearer ",1000L*60*30)
     }
 
 

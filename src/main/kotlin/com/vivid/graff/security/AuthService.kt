@@ -25,27 +25,24 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
 import org.springframework.stereotype.Service
+import java.io.IOException
+import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-@Service
-class AuthService(val authManager: AuthenticationManager) {
-    private val logger by logger()
+class AuthService(private val authManager: AuthenticationManager) {
 
-    fun login(requestUser: UserRequest): ResponseEntity<User> {
+
+    @Throws(BadCredentialsException::class, ServletException::class)
+    fun login(requestUser: UserRequest): Authentication {
 
         val authenticationTokenRequest = UsernamePasswordAuthenticationToken(requestUser.username, requestUser)
-        return try {
-            val authentication: Authentication = this.authManager.authenticate(authenticationTokenRequest)
-            val securityContext = SecurityContextHolder.getContext()
-            securityContext.authentication = authentication
 
-            val user = authentication.principal as User
-            logger.info("Logged in user: {}", user)
-            ResponseEntity(user, HttpStatus.OK)
-        } catch (ex: BadCredentialsException) {
-            ResponseEntity(HttpStatus.BAD_REQUEST)
-        }
+        val authentication: Authentication = this.authManager.authenticate(authenticationTokenRequest)
+        val securityContext = SecurityContextHolder.getContext()
+        securityContext.authentication = authentication
+        return authentication
+
     }
 
 

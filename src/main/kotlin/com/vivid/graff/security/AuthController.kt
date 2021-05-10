@@ -16,6 +16,8 @@
 package com.vivid.graff.security
 
 import com.vivid.graff.SubdomainUtil
+import com.vivid.graff.logger
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
@@ -25,9 +27,9 @@ import javax.servlet.http.HttpServletResponse
 @RestController
 @RequestMapping("/auth")
 class AuthController(private val authService: AuthService) {
+    private val logger by logger()
 
-
-    @GetMapping("/user")
+    @GetMapping("/signup")
     fun user(user: Principal): Principal {
         return user
     }
@@ -40,7 +42,11 @@ class AuthController(private val authService: AuthService) {
     ): ResponseEntity<User> {
         val client = SubdomainUtil.subdomain(request.serverName)
         requestUser.client = client
-        return authService.login(requestUser)
+        val authentication = authService.login(requestUser)
+
+        val user = authentication.principal as User
+        logger.info("Logged in user: {}", user)
+        return ResponseEntity(user, HttpStatus.OK)
     }
 
     @GetMapping("/logout")
