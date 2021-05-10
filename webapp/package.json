@@ -23,6 +23,7 @@
     "@angular/router": "^11.2.13",
     "@ng-bootstrap/ng-bootstrap": "^9.1.0",
     "bootstrap": "^4.6.0",
+    "moment": "^2.29.1",
     "primeflex": "^2.0.0",
     "primeicons": "^4.1.0",
     "primeng": "^11.4.0",

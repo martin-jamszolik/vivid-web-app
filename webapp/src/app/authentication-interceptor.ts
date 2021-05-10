@@ -22,9 +22,14 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const clonedRequest =
-            request.clone(
-                {withCredentials: true}
+
+        const idToken = localStorage.getItem("vivid_id_token");
+        
+        const clonedRequest = request.clone(
+                {
+                    headers: request.headers.set("Authorization","Bearer " + idToken),
+                    withCredentials: true
+                }
             );
         return next.handle(clonedRequest)
             .pipe(
@@ -37,7 +42,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
                 catchError(error => {
                     console.log('Error response status: ', error.status);
                     if (error.status === 401) {
-                        this.userService.clearUser();
+                        this.userService.logout
                         this.router.navigateByUrl('/account/login');
                     }
                     return throwError(error);

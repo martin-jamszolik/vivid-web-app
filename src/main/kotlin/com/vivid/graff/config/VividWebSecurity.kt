@@ -18,7 +18,7 @@ package com.vivid.graff.config
 import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties
 import com.vivid.graff.MultiDataSource
 import com.vivid.graff.security.*
-import com.woloxJwt.woloxJwt.security.JWTAuthorizationFilter
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
@@ -38,6 +38,7 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint
 class VividWebSecurity
 (private val dsService: MultiDataSource,
  private val encoder: PasswordEncoder,
+ @Value("\${jwt.secret.passphrase}") private val passphrase :String,
  private val encryptService: EncryptService) : WebSecurityConfigurerAdapter() {
 
 
@@ -76,7 +77,7 @@ class VividWebSecurity
 
     @Bean
     fun jwtProperties():JwtSettings {
-        return JwtSettings("this is a secret","Authorization","Bearer ",1000L*60*30)
+        return JwtSettings(passphrase,"Authorization","auth-session","Bearer ",1000L*60*30)
     }
 
 

@@ -63,7 +63,7 @@ object Proposals: Table<Proposal>("proposal"){
     val name = varchar("pr_name").bindTo { it.title }
     val editable = boolean("editable").bindTo { it.editable }
     val profit = decimal("p_pr").bindTo { it.profit }
-    val profitType= int("p_pr_type").bindTo { it.profitType }
+    val type = int("p_pr_type").bindTo { it.type }
     val status =varchar ("pr_status").bindTo { it.status }
     val authorized = date("authorize").bindTo { it.authorized }
 }

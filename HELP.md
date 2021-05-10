@@ -43,5 +43,12 @@ is authenticated against the subdomain to make sure you can access the service.
 
 Checkout the H2 Database setup for login details. See [seed-hd2-1.sql](src/main/resources/templates/seed-h2-1.sql)
 , you will find a `first_user` with password `secret` created. Use that to login.
-  
+
+### Docker Tips
+To try the application with docker do the following
+```shell
+gradle copyAngularNg jar
+docker build -t vivid .
+docker --rm run -p 8080:8080 vivid
+```
 

@@ -5,6 +5,7 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.vivid.graff.SubdomainUtil
+import org.springframework.http.HttpHeaders
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.AuthenticationException
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
@@ -18,7 +19,8 @@ import javax.servlet.http.HttpServletResponse
 
 class JWTAuthenticationFilter(
     private val service: AuthService,
-    private val settings:JwtSettings) : UsernamePasswordAuthenticationFilter() {
+    private val settings: JwtSettings
+) : UsernamePasswordAuthenticationFilter() {
 
     init {
         setFilterProcessesUrl("/auth/jwt/login");
@@ -48,20 +50,33 @@ class JWTAuthenticationFilter(
         auth: Authentication
     ) {
         val user = auth.principal as User
+        val expires = Date(System.currentTimeMillis() + settings.expire)
         val token = JWT.create()
             .withSubject("${user.client}-${user.username}")
-            .withExpiresAt(Date(System.currentTimeMillis() + settings.expire))
+            .withExpiresAt(expires)
             .withIssuedAt(Date())
-            .withClaim("username",user.username)
-            .withClaim("client",user.client)
-            .withClaim("password",user.password)
-            .withClaim("userId",user.id)
-            .withClaim("fullName",user.fullName)
+            .withClaim("username", user.username)
+            .withClaim("client", user.client)
+            .withClaim("userId", user.id)
+            .withClaim("fullName", user.fullName)
             .sign(Algorithm.HMAC512(settings.key))
-        res.addHeader(settings.header, settings.prefix+token)
-        val body= "${user.username} $token"
+        res.addHeader(settings.header, settings.prefix + token)
+        res.addHeader(HttpHeaders.CONTENT_TYPE, "application/json")
 
-        res.writer.write(body)
+        //res.addHeader(HttpHeaders.SET_COOKIE, ResponseCookie.from(settings.cookie,token)
+        //    .path("/")
+        //    .httpOnly(true)
+        //   .secure(true)
+        //   .build().toString() )
+
+        res.writer.write(
+            """
+            {
+            "token": "$token",
+            "expires": "${expires.time / 1000}"
+            }
+        """.trimIndent()
+        )
         res.writer.flush()
     }
 }

@@ -42,9 +42,9 @@ export class ProposalComponent implements OnInit {
 
   lookupType(key){
     switch (key){
-      case '0':
+      case 0:
         return 'Original';
-      case '1':
+      case 1:
         return 'Change Order';
     }
     return 'N/A';
