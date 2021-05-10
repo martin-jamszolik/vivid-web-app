@@ -24,13 +24,17 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
         const idToken = localStorage.getItem("vivid_id_token");
-        
-        const clonedRequest = request.clone(
-                {
-                    headers: request.headers.set("Authorization","Bearer " + idToken),
-                    withCredentials: true
-                }
-            );
+
+        const opts = (idToken) ? {
+            headers: request.headers.set("Authorization", "Bearer " + idToken),
+            withCredentials: true
+        } : {
+            withCredentials: true
+        };
+
+
+
+        const clonedRequest = request.clone(opts);
         return next.handle(clonedRequest)
             .pipe(
                 map((event: HttpEvent<any>) => {

@@ -64,7 +64,9 @@ class VividWebSecurity
                 .authenticationEntryPoint(HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/jwt/login","/index.html","/","/*.js","/*.css","/favicon.ico").permitAll()
+                .antMatchers("/auth/jwt/login",
+                    "/index.html","/","/*.js","/*.css",
+                    "/favicon.ico","/*.ttf","/*.woff").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()

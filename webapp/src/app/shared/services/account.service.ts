@@ -35,7 +35,7 @@ export class AccountService {
 
     }
 
-    public isLoggedIn() {
+    isLoggedIn(): boolean {
         return moment().isBefore(this.getExpiration());
     }
 
@@ -43,7 +43,7 @@ export class AccountService {
         return !this.isLoggedIn();
     }
 
-    getExpiration() {
+    getExpiration(): moment.Moment {
         const expiration = localStorage.getItem("vivid_expires_at");
         const expiresAt = JSON.parse(expiration);
         return moment(expiresAt);
