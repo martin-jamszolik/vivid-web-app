@@ -18,10 +18,10 @@ import com.moowork.gradle.node.npm.NpmTask
 
 
 plugins {
-    id("org.springframework.boot") version "2.4.4"
+    id("org.springframework.boot") version "2.5.2"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("jvm") version "1.4.31"
-    kotlin("plugin.spring") version "1.4.31"
+    kotlin("jvm") version "1.5.20"
+    kotlin("plugin.spring") version "1.5.20"
     id("com.github.node-gradle.node") version "2.2.4"
 }
 
@@ -43,8 +43,8 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.ktorm:ktorm-core:3.3.0")
-    implementation("org.ktorm:ktorm-jackson:3.3.0")
+    implementation("org.ktorm:ktorm-core:3.4.1")
+    implementation("org.ktorm:ktorm-jackson:3.4.1")
 
     runtimeOnly("com.h2database:h2")
     implementation("org.flywaydb:flyway-core")
