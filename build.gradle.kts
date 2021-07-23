@@ -13,8 +13,10 @@
  *
  */
 
+
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import com.moowork.gradle.node.npm.NpmTask
+
 
 
 plugins {
@@ -22,7 +24,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.5.20"
     kotlin("plugin.spring") version "1.5.20"
-    id("com.github.node-gradle.node") version "2.2.4"
+    id("com.github.node-gradle.node") version "3.1.0"
 }
 
 group = "com.vivid"
@@ -34,6 +36,8 @@ repositories {
 }
 
 dependencies {
+    implementation(platform(SpringBootPlugin.BOM_COORDINATES))
+    implementation(project(":webapp"))
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude(module = "spring-boot-starter-tomcat")
@@ -76,37 +80,4 @@ tasks.withType<KotlinCompile> {
         jvmTarget = "11"
         useIR = true
     }
-}
-
-
-tasks.register<NpmTask>("appNpmInstall") {
-    description = "Installs all dependencies from package.json"
-    setWorkingDir(file("${project.projectDir}/webapp"))
-    setArgs(listOf("install"))
-}
-
-tasks.register<NpmTask>("appNpmBuild") {
-    dependsOn("appNpmInstall")
-    description = "Builds project"
-    setWorkingDir(file("${project.projectDir}/webapp"))
-    setArgs(listOf("run", "build"))
-}
-
-
-tasks.register<Copy>("copyAngularNg") {
-    dependsOn("appNpmBuild")
-    description = "Copies built Angular Project to static resource folder"
-    from("webapp/build/static")
-    into("$buildDir/resources/main/static/")
-
-}
-
-node {
-    download = true
-    version = "14.15.0"
-    npmVersion = "6.14.10"
-    // Set the work directory for unpacking node
-    workDir = file("${project.buildDir}/nodejs")
-    // Set the work directory for NPM
-    npmWorkDir = file("${project.buildDir}/npm")
 }
