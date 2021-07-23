@@ -24,7 +24,6 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.5.20"
     kotlin("plugin.spring") version "1.5.20"
-    id("com.github.node-gradle.node") version "3.1.0"
 }
 
 group = "com.vivid"
@@ -78,6 +77,5 @@ tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "11"
-        useIR = true
     }
 }
