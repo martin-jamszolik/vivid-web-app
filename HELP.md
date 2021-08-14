@@ -19,13 +19,13 @@ This project helps you manage both frameworks (Angular, Spring Boot) with just G
 * Execute the following for a quick start
 
 ```shell
-gradle copyAngularNg bootRun
+gradle bootRun 
 ```
-The above commands will setup the needed version of node to build angular code.
+The above commands will build `webapp` angular and sprint boot together.
 See [build.gradle.kts](build.gradle.kts) node section for details. 
 
 ### Trying the Application
-You want to see the multi-tenant aspect in action. Setup your host file so that we can try a subdomain access.
+You want to see the multi-tenant aspect in action. Update your host file so that we can try a subdomain access.
 
 ```shell
 sudo nano /etc/hosts
@@ -38,17 +38,16 @@ The above will let you issue the following URLs:
 * http://second.local.me:8080
 
 At this point, the application will switch between two different data sources ( tenants ), serving 
-two different customers with the same runtime.  Each browser session gets a session token, this token
-is authenticated against the subdomain to make sure you can access the service.
+two different customers with the same runtime. 
 
 Checkout the H2 Database setup for login details. See [seed-hd2-1.sql](src/main/resources/templates/seed-h2-1.sql)
 , you will find a `first_user` with password `secret` created. Use that to login.
 
 ### Docker Tips
-To try the application with docker do the following
+To try the application with docker, do the following
 ```shell
-gradle copyAngularNg jar
+gradle bootJar
 docker build -t vivid .
-docker --rm run -p 8080:8080 vivid
+docker run --rm -p 8080:8080 vivid
 ```
 

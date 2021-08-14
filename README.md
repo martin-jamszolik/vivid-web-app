@@ -42,11 +42,11 @@ Read [**HELP**](HELP.md) to get started.
 * Database migrations using [flyway](https://flywaydb.org/) with multi database support.
 * Persistence layer powered by [Ktorm](https://www.ktorm.org/) and inspired by
   [Repository Pattern](https://www.cosmicpython.com/book/chapter_02_repository.html)
-
+* Local storage JWT Token for authentication.
 ## Future Improvements
 
 * Enable Angular `Lazy` modules.
-* Switch form Session cookies to local storage JWT Token.
+* Switch form Session cookies to 
 * Add Kubernetes deployment definitions for cluster deployment.
 
 
