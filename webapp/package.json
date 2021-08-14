@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host first.local.me",
-    "build": "ng build --configuration production=true --aot=true",
+    "build": "ng build --configuration=production --aot=true",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
