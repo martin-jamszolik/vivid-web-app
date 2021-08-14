@@ -70,7 +70,7 @@
     </ng-template>
 
     <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
-        <tr [ngClass]="{'kb-row': rowData.qty == undefined}">
+        <tr [ngClass]="{'kb-row': rowData.qty === undefined}">
             <td>
                 <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
                 {{rowData.name}}
