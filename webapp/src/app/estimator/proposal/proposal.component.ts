@@ -22,9 +22,8 @@ export class ProposalComponent implements OnInit {
   proposalTreeNode: TreeNode[];
 
    cols = [
-    { field: 'Scope', header: 'Scope', width: '35%', priority: '' },
-    { field: 'Detail', header: 'Detail', width: '37%', priority: 'priority-2'},
-    { field: 'Qty', header: 'Qty', width: '8%', priority: 'priority-3' },
+    { field: 'Scope', header: 'Scope', width: '70%', priority: '' },
+    { field: 'Qty', header: 'Qty', width: '10%', priority: 'priority-3' },
     { field: 'Cost', header: 'Cost', width: '10%', priority: 'priority-4' },
     { field: 'Total', header: 'Total', width: '10%', priority: 'priority-5' },
   ];

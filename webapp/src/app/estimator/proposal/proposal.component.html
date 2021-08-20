@@ -73,12 +73,11 @@
         <tr [ngClass]="{'kb-row': rowData.qty === undefined}">
             <td>
                 <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
-                {{rowData.name}}
+                {{rowData.name}} {{rowData.detail}}
                 <span class="visibility-sm">
-                     {{rowData.detail}} - {{rowData.total | currency }}
+                     {{rowData.total | currency }}
                 </span>
             </td>
-            <td class="priority-2" >{{rowData.detail}}</td>
             <td class="priority-3">{{rowData.qtyUnit}}</td>
             <td class="priority-4">{{rowData.cost | currency}}</td>
             <td class="priority-5">{{rowData.total | currency}}</td>
