@@ -42,25 +42,24 @@ Read [**HELP**](HELP.md) to get started.
 * Database migrations using [flyway](https://flywaydb.org/) with multi database support.
 * Persistence layer powered by [Ktorm](https://www.ktorm.org/) and inspired by
   [Repository Pattern](https://www.cosmicpython.com/book/chapter_02_repository.html)
-* Local storage JWT Token for authentication.
+* JWT Token for authentication.
 ## Future Improvements
 
 * Enable Angular `Lazy` modules.
-* Switch form Session cookies to 
 * Add Kubernetes deployment definitions for cluster deployment.
 
 
 ## Technology Reference
 ### UI Technologies 
-* Angular 11
-* TypeScript 4.1
+* Angular 12
+* TypeScript 4.3+
 * ng-bootstrap - CSS System
 * PrimeNG- Rich UI Components 
 
 ### Server Technology
-* Spring Boot 2.4 + Kotlin
+* Kotlin 1.5+
+* Spring Boot 2.5+
 * Gradle 7
-* Kotlin 1.4+
 * Ktorm
 * Flyway
 * H2 Embedded Database
