@@ -67,14 +67,14 @@ interface Project : Entity<Project> {
 interface Proposal: Entity<Proposal> {
     companion object : Entity.Factory<Proposal>()
     val id:Int
-    val projectId: Int
-    val date: LocalDate
-    val title: String
-    val editable: Boolean
-    val profit: BigDecimal
-    val type: Int
-    val status : String
-    val authorized: LocalDate
+    var projectId: Int
+    var date: LocalDate
+    var title: String
+    var editable: Boolean
+    var profit: BigDecimal
+    var type: Int
+    var status : String
+    var authorized: LocalDate
     var scopes: MutableList<Scope>
 }
 
@@ -125,15 +125,15 @@ data class Page<T>(
 interface Task: Entity<Task>{
     companion object: Entity.Factory<Task>()
     val id: Int
-    val proposalId:Int
-    val scope: String
-    val name: String
-    val detail:String
-    val cost:BigDecimal
-    val qty:BigDecimal
-    val unit:String
-    val profit: BigDecimal
-    val profitType: Int
-    val taskType: String
-    val taskIdentifier:String
+    var proposalId:Int
+    var scope: String
+    var name: String
+    var detail:String
+    var cost:BigDecimal
+    var qty:BigDecimal
+    var unit:String
+    var profit: BigDecimal
+    var profitType: Int
+    var taskType: String
+    var taskIdentifier:String
 }

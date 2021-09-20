@@ -42,5 +42,14 @@ class ProposalRepository(db: Database) : BaseRepository(db) {
         return proposal
     }
 
+    fun updateTask(task: Task): Boolean {
+        return tasks.update(task) > 1
+    }
+
+    fun insertTask(task: Task): Task {
+        tasks.add(task)
+        return task
+    }
+
 
 }
