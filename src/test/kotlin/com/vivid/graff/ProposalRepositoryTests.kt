@@ -16,6 +16,7 @@
 package com.vivid.graff
 
 import com.vivid.graff.shared.ProposalRepository
+import com.vivid.graff.shared.Task
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -35,5 +36,27 @@ class ProposalRepositoryTests: VividApplicationTests() {
         val proposal = proposalRepository.proposalById(1)
         assertThat(proposal).isNotNull
         assertThat(proposal.scopes).isNotEmpty
+    }
+
+    @Test
+    fun `should insert a new Task in a Proposal`(){
+        val proposal = proposalRepository.proposalById(1)
+        val task = Task {
+            proposalId = proposal.id
+            scope = "Test"
+            name = "UnitTest Task"
+            detail = "With more Details"
+            cost= 123.0.toBigDecimal()
+            qty = 10.0.toBigDecimal()
+            unit = "unit"
+            profit = 0.0.toBigDecimal()
+            profitType = 0
+            taskType= "Default"
+            taskIdentifier = "1)"
+        }
+
+        proposalRepository.insertTask(task)
+        assertThat(task.id).isNotNull
+
     }
 }
