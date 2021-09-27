@@ -6,6 +6,8 @@ import com.vivid.graff.shared.Task
 import org.ktorm.dsl.eq
 import org.ktorm.entity.filter
 import org.ktorm.entity.toList
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -19,8 +21,8 @@ class TasksController(private val pr: ProposalRepository) {
     }
 
     @PostMapping()
-    fun insert(@PathVariable("proposalId") proposalId: Int, @RequestBody task: Task): Task {
-        return pr.insertTask(task)
+    fun insert(@PathVariable("proposalId") proposalId: Int, @RequestBody task: Task): ResponseEntity<Task> {
+        return ResponseEntity(pr.insertTask(task),HttpStatus.CREATED)
     }
 
     @PutMapping("/{taskId}")
