@@ -14,16 +14,16 @@
  */
 
 
-import org.springframework.boot.gradle.plugin.SpringBootPlugin
+//import org.springframework.boot.gradle.plugin.SpringBootPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
 
 plugins {
-    id("org.springframework.boot") version "2.5.2"
+    id("org.springframework.boot") version "2.5.5"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("jvm") version "1.5.20"
-    kotlin("plugin.spring") version "1.5.20"
+    kotlin("jvm") version "1.5.31"
+    kotlin("plugin.spring") version "1.5.31"
 }
 
 group = "com.vivid"
@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    implementation(platform(SpringBootPlugin.BOM_COORDINATES))
+    //implementation(platform(SpringBootPlugin.BOM_COORDINATES))
     implementation(project(":webapp"))
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web") {
