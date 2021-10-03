@@ -43,7 +43,7 @@ class ProposalRepository(db: Database) : BaseRepository(db) {
     }
 
     fun updateTask(task: Task): Boolean {
-        return tasks.update(task) > 1
+        return tasks.update(task) > 0
     }
 
     fun insertTask(task: Task): Task {
