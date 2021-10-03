@@ -1,6 +1,5 @@
 package com.vivid.graff.estimator
 
-import com.vivid.graff.shared.Proposal
 import com.vivid.graff.shared.ProposalRepository
 import com.vivid.graff.shared.Task
 import org.ktorm.dsl.eq
@@ -26,8 +25,8 @@ class TasksController(private val pr: ProposalRepository) {
     }
 
     @PutMapping("/{taskId}")
-    fun update(@PathVariable("taskId") taskId: Int, @RequestBody task: Task): Boolean {
-        return pr.updateTask(task)
+    fun update(@PathVariable("taskId") taskId: Int, @RequestBody task: Task): ResponseEntity<Boolean> {
+        return ResponseEntity(pr.updateTask(task), HttpStatus.OK)
     }
 
 
