@@ -42,6 +42,10 @@ class ProposalRepository(db: Database) : BaseRepository(db) {
         return proposal
     }
 
+    fun updateProposal(proposal:Proposal): Boolean {
+        return proposals.update(proposal) > 0
+    }
+
     fun updateTask(task: Task): Boolean {
         return tasks.update(task) > 0
     }

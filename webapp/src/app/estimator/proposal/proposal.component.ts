@@ -21,7 +21,7 @@ export class ProposalComponent implements OnInit {
 
   proposalTreeNode: TreeNode[];
 
-   cols = [
+  cols = [
     { field: 'Scope', header: 'Scope', width: '70%', priority: '' },
     { field: 'Qty', header: 'Qty', width: '10%', priority: 'priority-3' },
     { field: 'Cost', header: 'Cost', width: '10%', priority: 'priority-4' },
@@ -39,14 +39,29 @@ export class ProposalComponent implements OnInit {
     );
   }
 
-  lookupType(key){
-    switch (key){
+  lookupType(key: number) {
+    switch (key) {
       case 0:
         return 'Original';
       case 1:
         return 'Change Order';
     }
     return 'N/A';
+  }
+
+  onRowEditInit(proposal: Proposal) {
+    console.info("rowEdit Init")
+  }
+
+  onRowEditSave(proposal: Proposal) {
+    console.info("rowEdit Save")
+    this.proposalService.updateProposal(proposal).subscribe(
+      resp => console.info( resp )
+    )
+  }
+
+  onRowEditCancel(proposal: Proposal, index: number) {
+    console.info("rowEdit Cancel")
   }
 
   onRowProposalSelect(event) {
@@ -59,12 +74,12 @@ export class ProposalComponent implements OnInit {
 
     const scopes: TreeNode[] = [];
 
-    data.scopes.forEach( s => {
-      const scope =  Object.assign(new Scope(), s) as Scope;
+    data.scopes.forEach(s => {
+      const scope = Object.assign(new Scope(), s) as Scope;
 
       scope.tasks = [];
-      s.tasks.forEach( t => {
-        scope.tasks.push(Object.assign(new Task(), t) as Task );
+      s.tasks.forEach(t => {
+        scope.tasks.push(Object.assign(new Task(), t) as Task);
       });
 
       scopes.push(scope);
