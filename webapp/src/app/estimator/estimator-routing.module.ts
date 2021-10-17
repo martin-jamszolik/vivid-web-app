@@ -6,11 +6,11 @@ import { AuthGuard } from '@app/auth.guard';
 
 const estimatorRoutes: Routes = [
   {
-    path: 'estimation/search',
+    path: 'search',
     component: SearchComponent, canActivate: [AuthGuard]
   },
   {
-    path: 'estimation/project/:id',
+    path: 'project/:id',
     component: ProposalComponent, canActivate: [AuthGuard]
   }
 ];
