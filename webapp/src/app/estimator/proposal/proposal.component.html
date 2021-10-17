@@ -33,7 +33,7 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-prop let-editing="editing" let-ri="rowIndex">
                                 <tr [pEditableRow]="prop" [pSelectableRow]="prop">
-                                    <td pEditableColumn>
+                                    <td>
                                         <p-cellEditor>
                                             <ng-template pTemplate="input">
                                                 <input pInputText type="text" [(ngModel)]="prop.title">
@@ -47,7 +47,7 @@
                                     <td >{{lookupType(prop.type)}}</td>
                                     <td >{{prop.status}}</td>
                                     <td style="text-align:center">
-                                        <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(prop)" class="p-button-rounded p-button-text"></button>
+                                        <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(prop)" class="p-button-info p-button-rounded"></button>
                                         <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(prop)" class="p-button-rounded p-button-text p-button-success p-mr-2"></button>
                                         <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(prop, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
                                     </td>
