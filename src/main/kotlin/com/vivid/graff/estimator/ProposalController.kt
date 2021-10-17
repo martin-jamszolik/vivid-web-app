@@ -17,6 +17,9 @@ package com.vivid.graff.estimator
 
 import com.vivid.graff.shared.Proposal
 import com.vivid.graff.shared.ProposalRepository
+import com.vivid.graff.shared.Task
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 
@@ -36,4 +39,11 @@ class ProposalController(private val pr:ProposalRepository) {
     fun getProposal(@PathVariable("proposalId") proposalId: Int): Proposal {
        return pr.proposalById(proposalId)
     }
+
+    @PutMapping("/{proposalId}")
+    fun update(@PathVariable("proposalId") proposalId: Int,
+               @RequestBody proposal: Proposal): ResponseEntity<Boolean> {
+        return ResponseEntity(pr.updateProposal(proposal), HttpStatus.OK)
+    }
+
 }

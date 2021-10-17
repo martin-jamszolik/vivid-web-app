@@ -28,6 +28,17 @@ export class ProposalService {
       );
   }
 
+  updateProposal(proposal: Proposal): Observable<any> {
+    let proposalId = proposal.id
+    let projectId = proposal.projectId
+    return this.http.put<any>(`${this.proposalUrl}/${projectId}/proposals/${proposalId}`,
+         proposal)
+      .pipe(
+        catchError(this.handleError('updateProposal', proposal))
+      );
+  }
+
+
   /* GET Proposal */
   getProposal(projectId: number, proposalId: number): Observable<Proposal> {
 
