@@ -6,7 +6,7 @@ build/
 
 ###Angular###
 /webapp/dist
-
+/webapp/bin
 # dependencies
 /webapp/node_modules
 
