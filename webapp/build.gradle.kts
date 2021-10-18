@@ -11,21 +11,15 @@ val buildAngular = tasks.register<NpmTask>("buildAngular") {
   npmCommand.set(listOf("run", "build"))
   ignoreExitValue.set(false)
   workingDir.set(projectDir)
-  outputs.dir("${project.buildDir}/webapp")
+  outputs.dir("${project.buildDir}/resources/main")
 }
 
 buildAngular {
   onlyIf { !project.hasProperty("skipAngular") }
 }
 
-sourceSets {
-  kotlin {
-    main {
-      resources {
-        srcDir(buildAngular)
-      }
-    }
-  }
+tasks.jar {
+  dependsOn(buildAngular)
 }
 
 node {
