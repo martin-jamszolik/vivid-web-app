@@ -48,6 +48,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.ktorm:ktorm-core:3.4.1")
     implementation("org.ktorm:ktorm-jackson:3.4.1")
+    implementation( "org.ktorm:ktorm-support-mysql:3.4.1")
 
     runtimeOnly("com.h2database:h2")
     implementation("org.flywaydb:flyway-core")

@@ -24,8 +24,13 @@
             </div>
         </div>
         <div class="p-col">
-            <p-table [value]="projects" selectionMode="single" [(selection)]="selectedProject" dataKey="id"
-                (onRowSelect)="onRowSelect($event)">
+            <p-table [value]="projects.currentList" selectionMode="single" [(selection)]="selectedProject" 
+                dataKey="id"
+                (onRowSelect)="onRowSelect($event)" 
+                [lazy]="true" 
+                (onLazyLoad)="fetchProjectNextPage($event)"
+                [paginator]="true" [rows]="projects.limit" [totalRecords]="projects.totalRecords" [loading]="loading"
+                [rowsPerPageOptions]="[5,2,50]" >
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Title</th>

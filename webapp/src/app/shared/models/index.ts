@@ -5,4 +5,4 @@ export * from './scope.model';
 export * from './task.model';
 export * from './user.model';
 export * from './alert.model';
-export * from './alert.model';
+export * from './page.model';

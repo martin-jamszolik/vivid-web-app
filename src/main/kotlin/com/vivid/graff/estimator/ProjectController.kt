@@ -16,6 +16,7 @@
 package com.vivid.graff.estimator
 
 
+import com.vivid.graff.shared.Page
 import com.vivid.graff.shared.ProjectDTO
 import com.vivid.graff.shared.ProjectRepository
 import com.vivid.graff.shared.Projects
@@ -36,15 +37,13 @@ class ProjectController(private val repo: ProjectRepository) {
         @RequestParam("search") search: String,
         @RequestParam("offset") offset: Int,
         @RequestParam("limit") limit: Int
-    ): List<ProjectDTO> {
+    ): Page<ProjectDTO> {
 
         return if (search.isNotBlank())
-            repo.projectsWhere(Projects.name like "%$search%")
+            repo.projectsWhere(Projects.name like "%$search%", Pair(offset, limit))
         else
-            repo.projectsWhere(Projects.name.isNotNull())
+            repo.projectsWhere(Projects.name.isNotNull(), Pair(offset, limit));
 
-        //Page(offset, limit, projects.size, currentList = projects)
-        //return projects
     }
 
 

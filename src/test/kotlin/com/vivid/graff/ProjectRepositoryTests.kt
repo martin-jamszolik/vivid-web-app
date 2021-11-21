@@ -21,6 +21,7 @@ import com.vivid.graff.shared.Project
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.ktorm.dsl.eq
+import org.ktorm.dsl.isNotNull
 import org.ktorm.dsl.like
 import org.ktorm.entity.add
 import org.ktorm.entity.find
@@ -33,9 +34,20 @@ class ProjectRepositoryTests : VividApplicationTests() {
     lateinit var projectRepository: ProjectRepository
 
     @Test
-    fun `query for project list using Kotlin ORM`() {
-        val list = projectRepository.projectsWhere(Projects.name like "%1030 5th Ave%")
-        assertThat(list).isNotEmpty
+    fun `query for unique project by Name`() {
+        val page = projectRepository.projectsWhere(Projects.name like "%1030 5th Ave%",Pair(0,2))
+        assertThat(page).isNotNull
+        assertThat(page.currentList).isNotEmpty
+        assertThat(page.currentList.size).isSameAs(1)
+        assertThat(page.totalRecords).isSameAs(1)
+    }
+    @Test
+    fun `query for all projects with Pagination`() {
+        val page = projectRepository.projectsWhere(Projects.name.isNotNull() ,Pair(0,4))
+        assertThat(page).isNotNull
+        assertThat(page.currentList).isNotEmpty
+        assertThat(page.currentList.size).isSameAs(4)
+        assertThat(page.totalRecords).isSameAs(10)
     }
 
     @Test
@@ -52,7 +64,7 @@ class ProjectRepositoryTests : VividApplicationTests() {
 
         val locationId = projectRepository.getPrimaryKey(
             Locations,
-            Locations.id, (Locations.address eq "123 Main Ave")
+            Locations.id, (Locations.address eq "1030 5th Avenue")
         )
         assertThat(locationId).isEqualTo(1)
 
