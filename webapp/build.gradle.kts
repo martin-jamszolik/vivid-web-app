@@ -6,6 +6,15 @@ plugins {
   id("com.github.node-gradle.node") version "3.1.0"
 }
 
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation("org.jetbrains.kotlin:kotlin-reflect")
+  implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+}
+
 val buildAngular = tasks.register<NpmTask>("buildAngular") {
   dependsOn(tasks.npmInstall)
   npmCommand.set(listOf("run", "build"))
