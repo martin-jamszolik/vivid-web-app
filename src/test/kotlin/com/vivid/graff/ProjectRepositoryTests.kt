@@ -27,14 +27,16 @@ import org.ktorm.entity.add
 import org.ktorm.entity.find
 import org.ktorm.entity.first
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.annotation.Rollback
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
-
+@Transactional
 class ProjectRepositoryTests : VividApplicationTests() {
     @Autowired
     lateinit var projectRepository: ProjectRepository
 
     @Test
-    fun `query for unique project by Name`() {
+    fun `should query for unique project by Name`() {
         val page = projectRepository.projectsWhere(Projects.name like "%1030 5th Ave%",Pair(0,2))
         assertThat(page).isNotNull
         assertThat(page.currentList).isNotEmpty
@@ -42,7 +44,7 @@ class ProjectRepositoryTests : VividApplicationTests() {
         assertThat(page.totalRecords).isSameAs(1)
     }
     @Test
-    fun `query for all projects with Pagination`() {
+    fun `should query for all projects with Pagination`() {
         val page = projectRepository.projectsWhere(Projects.name.isNotNull() ,Pair(0,4))
         assertThat(page).isNotNull
         assertThat(page.currentList).isNotEmpty
@@ -60,7 +62,7 @@ class ProjectRepositoryTests : VividApplicationTests() {
 
 
     @Test
-    fun `should save a new Project using existing references`() {
+    fun `should create new Project using existing references`() {
 
         val locationId = projectRepository.getPrimaryKey(
             Locations,

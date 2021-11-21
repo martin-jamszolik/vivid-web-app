@@ -43,6 +43,7 @@ class ProjectRepository(db: Database) : BaseRepository(db) {
         return projects.update(entity)
     }
 
+    @Transactional(readOnly=true)
     fun projectsWhere(condition: ColumnDeclaring<Boolean>, limit: Pair<Int, Int>): Page<ProjectDTO> {
         val query = db
             .from(Projects)
@@ -59,7 +60,7 @@ class ProjectRepository(db: Database) : BaseRepository(db) {
                 Estimators.name
             )
             .where(condition)
-            .limit(limit.first, limit.second);
+            .limit(limit.first, limit.second)
 
         val list = query.map { row ->
             ProjectDTO(
