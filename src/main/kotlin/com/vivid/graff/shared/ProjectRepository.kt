@@ -43,8 +43,9 @@ class ProjectRepository(db: Database) : BaseRepository(db) {
         return projects.update(entity)
     }
 
-    fun projectsWhere(condition: ColumnDeclaring<Boolean>): List<ProjectDTO> {
-        return db
+    @Transactional(readOnly=true)
+    fun projectsWhere(condition: ColumnDeclaring<Boolean>, limit: Pair<Int, Int>): Page<ProjectDTO> {
+        val query = db
             .from(Projects)
             .innerJoin(Locations, on = Projects.locationId eq Locations.id)
             .innerJoin(Companies, on = Projects.companyId eq Companies.id)
@@ -59,17 +60,26 @@ class ProjectRepository(db: Database) : BaseRepository(db) {
                 Estimators.name
             )
             .where(condition)
-            .map { row ->
-                ProjectDTO(
-                    id = row[Projects.id],
-                    title = row[Projects.name].orEmpty(),
-                    address = row[Locations.address].orEmpty(),
-                    company = row[Companies.name].orEmpty(),
-                    estimator = row[Estimators.name].orEmpty(),
-                    client = "",
-                    status = row[Projects.status].orEmpty(),
-                    date = row[Projects.date]
-                )
-            }
+            .limit(limit.first, limit.second)
+
+        val list = query.map { row ->
+            ProjectDTO(
+                id = row[Projects.id],
+                title = row[Projects.name].orEmpty(),
+                address = row[Locations.address].orEmpty(),
+                company = row[Companies.name].orEmpty(),
+                estimator = row[Estimators.name].orEmpty(),
+                client = "",
+                status = row[Projects.status].orEmpty(),
+                date = row[Projects.date]
+            )
+        }
+
+        return Page(
+            offset = limit.first,
+            limit = limit.second,
+            totalRecords = query.totalRecords,
+            currentList = list
+        )
     }
 }

@@ -42,7 +42,7 @@ class H2DatabaseConfiguration(val encoder: PasswordEncoder) {
                 .continueOnError(true)
                 .addScript("classpath:templates/h2-ddl.sql")
                 .addScript("classpath:templates/seed-h2-1.sql")
-                .build();
+                .build()
         }
 
 
@@ -54,7 +54,7 @@ class H2DatabaseConfiguration(val encoder: PasswordEncoder) {
                 .setType(EmbeddedDatabaseType.H2)
                 .addScript("classpath:templates/h2-ddl.sql")
                 .addScript("classpath:templates/seed-h2-2.sql")
-                .build();
+                .build()
         }
     }
 
@@ -88,7 +88,7 @@ internal class VividDriverDataSourceFactory : DataSourceFactory {
             }
 
             override fun setUrl(url: String) {
-                dataSource.url = "$url;MODE=MYSQL;DATABASE_TO_LOWER=TRUE"
+                dataSource.url = "$url;MODE=MYSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1"
             }
 
             override fun setUsername(username: String) {

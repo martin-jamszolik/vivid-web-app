@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Project } from 'src/app/shared';
+import { Project,Page } from 'src/app/shared';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ import { Project } from 'src/app/shared';
 export class SearchService {
   private projectsUrl = 'api/projects';
 
-  public lastSearchResult: Project[];
+  public lastSearchResult: Page<Project>;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -22,15 +22,15 @@ export class SearchService {
 
 
   /* GET projects */
-  search(term: string): Observable<Project[]> {
+  search(term: string,offset:number, limit:number): Observable<Page<Project>> {
     const params = new HttpParams()
       .set('search', term)
-      .set('offset', '20')
-      .set("limit",'100');
+      .set('offset', offset)
+      .set("limit",limit);
 
-    return this.http.get<Project[]>(`${this.projectsUrl}`,{params})
+    return this.http.get<Page<Project>>(`${this.projectsUrl}`,{params})
       .pipe(
-        catchError(this.handleError<Project[]>('searchProjects', []))
+        catchError(this.handleError<Page<Project>>('searchProjects', new Page<Project>()))
       );
   }
 
