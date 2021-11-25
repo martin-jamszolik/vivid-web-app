@@ -28,7 +28,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Build with Gradle
-        run: ./gradlew check
+        run: ./gradlew check -PskipAngular
+      - name: Backend Test Report
+        uses: dorny/test-reporter@v1
+        if: success() || failure()   
+        with:
+          name: Backend Tests
+          path: build/test-results/**/*.xml
+          reporter: java-junit
+
       - name: Cleanup Gradle Cache
         # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
         # Restoring these files from a GitHub Actions cache might cause problems for future builds.
