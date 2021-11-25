@@ -28,7 +28,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Build with Gradle
-        run: ./gradlew check -PskipAngular=true
+        run: ./gradlew check -PskipAngular
       - name: Backend Test Report
         uses: dorny/test-reporter@v1
         if: success() || failure()   
