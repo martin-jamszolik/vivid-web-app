@@ -1,4 +1,4 @@
-![CI Checked](https://github.com/martin-jamszolik/vivid-web-app/actions/workflows/gradle.yml/badge.svg)
+![CI Checked](https://github.com/martin-jamszolik/vivid-web-app/actions/workflows/vivid-ci.yml/badge.svg)
 
 # Vivid Web Application
 A data driven business application using latest in Angular and Spring Web technology powered by Kotlin.  Among various other goals, 
