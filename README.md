@@ -11,13 +11,13 @@ contribute and give feedback.
 ## Why?
 Well, among the many available blogs and demos out there, most projects focus on showcasing a 
 specific feature in mind while lacking many essential components. This project aims to include real life solutions and patterns.
-The application while not perfect still, already includes many concerns a real app would require.
+The application already includes many concepts a real app would want to solve.
 
 ## How?
 Combine `Angular/TypeScript` and the 
 powerful JVM based `Kotlin` language, enterprise ready `Spring Boot` MVC Framework to 
-power backend services.  There are many frameworks/languages out there to choose from like `Ruby on Rails`, `Play Framework`, `Flask` among many others. 
-All have something unique and wonderful provide.  This project is meant to showcase the evolution, challenges
+power backend services.  There are many frameworks/languages out there to choose from like `Ruby on Rails`, `Play Framework`, `Flask`, `Node.js` among many others. 
+All have something unique and wonderful to offer.  This project is meant to showcase the evolution, challenges
 and aspects of 
 [Angular](https://angular.io/), 
 [TypeScript](https://www.typescriptlang.org/), 
@@ -45,8 +45,8 @@ Read [**HELP**](HELP.md) to get started.
 
 ## Technology Reference
 ### UI Technologies 
-* Angular 12
-* TypeScript 4.3+
+* Angular 13+
+* TypeScript 4.5+
 * ng-bootstrap - CSS System
 * PrimeNG- Rich UI Components 
 
