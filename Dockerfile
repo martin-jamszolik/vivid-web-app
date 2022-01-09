@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk15
+FROM eclipse-temurin:17-jdk
 WORKDIR /app
 COPY build/libs/vivid-web-app-0.0.1-SNAPSHOT.jar .
 EXPOSE 8080
