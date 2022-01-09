@@ -1,4 +1,13 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterTestingModule } from "@angular/router/testing";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+
+import { TableModule } from 'primeng/table';
+import { TreeTableModule } from 'primeng/treetable';
+import { PanelModule } from 'primeng/panel'
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ProposalComponent } from './proposal.component';
 
@@ -8,7 +17,13 @@ describe('ProposalComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProposalComponent ]
+      declarations: [ ProposalComponent ],
+      imports: [RouterTestingModule,HttpClientTestingModule,NgbModule,
+        TableModule,
+        TreeTableModule,
+        InputTextModule,
+        ButtonModule,
+        PanelModule],
     })
     .compileComponents();
   }));
