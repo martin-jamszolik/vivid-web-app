@@ -16,31 +16,35 @@
 
 //import org.springframework.boot.gradle.plugin.SpringBootPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+
+
 
 plugins {
-    id("org.springframework.boot") version "2.5.5"
+    id("org.springframework.boot") version "2.6.2"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    kotlin("jvm") version "1.6.10"
+    kotlin("plugin.spring") version "1.6.10"    
+
     id("com.adarshr.test-logger") version "3.1.0"
-    kotlin("jvm") version "1.5.31"
-    kotlin("plugin.spring") version "1.5.31"
+    id("com.github.ben-manes.versions") version "0.41.0"
 }
 
 group = "com.vivid"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    //implementation(platform(SpringBootPlugin.BOM_COORDINATES))
     implementation(project(":webapp"))
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude(module = "spring-boot-starter-tomcat")
     }
-    implementation("com.auth0:java-jwt:3.15.0")
+    implementation("com.auth0:java-jwt:3.18.2")
     implementation("org.springframework.boot:spring-boot-starter-undertow")
 
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
@@ -49,18 +53,18 @@ dependencies {
     implementation("org.ktorm:ktorm-jackson:3.4.1")
     implementation( "org.ktorm:ktorm-support-mysql:3.4.1")
 
-    runtimeOnly("com.h2database:h2")
-    implementation("org.flywaydb:flyway-core")
+    runtimeOnly("com.h2database:h2:2.0.206")
+    implementation("org.flywaydb:flyway-core:8.4.0")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    implementation("commons-codec:commons-codec:1.14")
-    implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3")
+    implementation("commons-codec:commons-codec")
+    implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-    testImplementation("com.ninja-squad:springmockk:3.0.1")
+    testImplementation("com.ninja-squad:springmockk:3.1.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
         exclude(module = "junit-vintage-engine")
@@ -76,6 +80,14 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
+}
+
+tasks.named<DependencyUpdatesTask>("dependencyUpdates").configure {
+    // optional parameters
+    checkForGradleUpdate = true
+    outputFormatter = "json"
+    outputDir = "build/dependencyUpdates"
+    reportfileName = "report"
 }

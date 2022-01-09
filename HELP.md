@@ -7,8 +7,8 @@ For best setup experience, recommend the following.
 
 ```shell
 sdk list java
-sdk install java 15.0.2.hs-adpt 
-sdk use java 15.0.2.hs-adpt
+sdk install java 17.0.1-tem
+sdk use java 17.0.1-tem
 sdk install gradle
 ```
 
