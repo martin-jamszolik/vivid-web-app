@@ -1,4 +1,4 @@
-name: CI with Gradle
+name: CI with Gradle and Angular
 
 on:
   push:
@@ -7,10 +7,8 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
+  backend-job:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
@@ -43,3 +41,17 @@ jobs:
         run: |
           rm -f ~/.gradle/caches/modules-2/modules-2.lock
           rm -f ~/.gradle/caches/modules-2/gc.properties
+  angular-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Test
+        run: |
+          cd webapp;
+          npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+
