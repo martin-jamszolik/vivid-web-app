@@ -3,7 +3,7 @@ import com.github.gradle.node.npm.task.NpmTask
 
 plugins {
   kotlin("jvm")
-  id("com.github.node-gradle.node") version "3.1.1"
+  id("com.github.node-gradle.node") version "3.3.0"
 }
 
 repositories {
@@ -33,8 +33,8 @@ tasks.jar {
 
 node {
   download.set(false)
-  version.set("14.15.0")
-  npmVersion.set("6.14.10")
+  version.set("16.15.1")
+  npmVersion.set("8.11.0")
   // Set the work directory for unpacking node
   workDir.set(file("${project.buildDir}/nodejs"))
   // Set the work directory for NPM
