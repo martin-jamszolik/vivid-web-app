@@ -16,6 +16,7 @@ dependencies {
 }
 
 val buildAngular = tasks.register<NpmTask>("buildAngular") {
+  onlyIf {  !project.hasProperty("skipAngular") }
   dependsOn(tasks.npmInstall)
   npmCommand.set(listOf("run", "build"))
   ignoreExitValue.set(false)
@@ -23,7 +24,10 @@ val buildAngular = tasks.register<NpmTask>("buildAngular") {
   outputs.dir("${project.buildDir}/resources/main")
 }
 
-buildAngular {
+tasks.npmInstall {
+  onlyIf { !project.hasProperty("skipAngular") }
+}
+tasks.npmSetup {
   onlyIf { !project.hasProperty("skipAngular") }
 }
 
