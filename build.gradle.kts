@@ -21,13 +21,13 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 
 plugins {
-    id("org.springframework.boot") version "2.6.2"
+    id("org.springframework.boot") version "2.7.1"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("jvm") version "1.6.10"
-    kotlin("plugin.spring") version "1.6.10"    
+    kotlin("jvm") version "1.7.0"
+    kotlin("plugin.spring") version "1.7.0"
 
-    id("com.adarshr.test-logger") version "3.1.0"
-    id("com.github.ben-manes.versions") version "0.41.0"
+    id("com.adarshr.test-logger") version "3.2.0"
+    id("com.github.ben-manes.versions") version "0.42.0"
 }
 
 group = "com.vivid"
@@ -44,17 +44,17 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude(module = "spring-boot-starter-tomcat")
     }
-    implementation("com.auth0:java-jwt:3.18.2")
+    implementation("com.auth0:java-jwt:4.0.0")
     implementation("org.springframework.boot:spring-boot-starter-undertow")
 
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.ktorm:ktorm-core:3.4.1")
-    implementation("org.ktorm:ktorm-jackson:3.4.1")
-    implementation( "org.ktorm:ktorm-support-mysql:3.4.1")
+    implementation("org.ktorm:ktorm-core:3.5.0")
+    implementation("org.ktorm:ktorm-jackson:3.5.0")
+    implementation( "org.ktorm:ktorm-support-mysql:3.5.0")
 
-    runtimeOnly("com.h2database:h2:2.0.206")
-    implementation("org.flywaydb:flyway-core:8.4.0")
+    runtimeOnly("com.h2database:h2:2.1.214")
+    implementation("org.flywaydb:flyway-core:8.5.13")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -64,7 +64,7 @@ dependencies {
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-    testImplementation("com.ninja-squad:springmockk:3.1.0")
+    testImplementation("com.ninja-squad:springmockk:3.1.1")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
         exclude(module = "junit-vintage-engine")

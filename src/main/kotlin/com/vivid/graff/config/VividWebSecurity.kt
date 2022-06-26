@@ -24,11 +24,13 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.AuthenticationProvider
+import org.springframework.security.authentication.DefaultAuthenticationEventPublisher
+import org.springframework.security.authentication.ProviderManager
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.HttpStatusEntryPoint
 
 
@@ -36,50 +38,54 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint
 @EnableWebSecurity
 @EnableEncryptableProperties
 class VividWebSecurity
-(private val dsService: MultiDataSource,
- private val encoder: PasswordEncoder,
- @Value("\${jwt.secret.passphrase}") private val passphrase :String,
- private val encryptService: EncryptService) : WebSecurityConfigurerAdapter() {
-
+    (
+    private val dsService: MultiDataSource,
+    private val encoder: PasswordEncoder,
+    @Value("\${jwt.secret.passphrase}") private val passphrase: String
+) {
 
 
     @Bean("authenticationManager")
     @Throws(Exception::class)
-    override fun authenticationManagerBean(): AuthenticationManager {
-        return super.authenticationManagerBean()
+    fun authManager(): AuthenticationManager {
+        val auth = ProviderManager(authenticationProvider())
+        auth.setAuthenticationEventPublisher(DefaultAuthenticationEventPublisher())
+        return auth
     }
 
     @Bean
     fun authService(): AuthService {
-        return AuthService(authenticationManagerBean())
+        return AuthService(authManager())
     }
 
     @Bean
     fun authenticationProvider(): AuthenticationProvider {
-        return VividAuthenticationProvider(dsService,encoder)
-    }
-
-    override fun configure(http: HttpSecurity) {
-        http.exceptionHandling()
-                .authenticationEntryPoint(HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-                .and()
-                .authorizeRequests()
-                .antMatchers("/auth/jwt/login",
-                    "/index.html","/","/*.js","/*.css",
-                    "/favicon.ico","/*.ttf","/*.woff").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .csrf().disable()
-                .authenticationProvider(authenticationProvider())
-                .addFilter(JWTAuthenticationFilter(authService(),jwtProperties()))
-                .addFilter(JWTAuthorizationFilter(authenticationManager(),jwtProperties()))
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+        return VividAuthenticationProvider(dsService, encoder)
     }
 
     @Bean
-    fun jwtProperties():JwtSettings {
-        return JwtSettings(passphrase,"Authorization","auth-session","Bearer ",1000L*60*30)
+    fun secure(http: HttpSecurity): SecurityFilterChain {
+        http.exceptionHandling()
+            .authenticationEntryPoint(HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+            .and()
+            .authorizeRequests()
+            .antMatchers(
+                "/auth/jwt/login",
+                "/index.html", "/", "/*.js", "/*.css",
+                "/favicon.ico", "/*.ttf", "/*.woff"
+            ).permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .csrf().disable().authenticationManager(authManager())
+            .addFilter(JWTAuthenticationFilter(authService(), jwtProperties()))
+            .addFilter(JWTAuthorizationFilter(authManager(), jwtProperties()))
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        return http.build()
+    }
+
+    @Bean
+    fun jwtProperties(): JwtSettings {
+        return JwtSettings(passphrase, "Authorization", "auth-session", "Bearer ", 1000L * 60 * 30)
     }
 
 
