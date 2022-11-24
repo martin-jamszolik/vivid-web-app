@@ -12,19 +12,16 @@
  *  See the License for the specific language governing permissions and limitations under the License.
  *
  */
-
-
-//import org.springframework.boot.gradle.plugin.SpringBootPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 
 
 plugins {
-    id("org.springframework.boot") version "2.7.1"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("jvm") version "1.7.0"
-    kotlin("plugin.spring") version "1.7.0"
+    id("org.springframework.boot") version "3.0.0-RC2"
+    id("io.spring.dependency-management") version "1.1.0"
+    kotlin("jvm") version "1.7.20"
+    kotlin("plugin.spring") version "1.7.20"
 
     id("com.adarshr.test-logger") version "3.2.0"
     id("com.github.ben-manes.versions") version "0.42.0"
@@ -36,6 +33,7 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
     mavenCentral()
+    maven { url = uri("https://repo.spring.io/milestone") }
 }
 
 dependencies {

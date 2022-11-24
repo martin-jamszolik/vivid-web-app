@@ -2,16 +2,16 @@ package com.vivid.graff.security
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import jakarta.servlet.FilterChain
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
 import java.io.IOException
-import javax.servlet.FilterChain
-import javax.servlet.ServletException
-import javax.servlet.http.Cookie
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.ServletException
+import jakarta.servlet.http.Cookie
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 
 
 class JWTAuthorizationFilter( authManager: AuthenticationManager, private val settings:JwtSettings) : BasicAuthenticationFilter(authManager) {

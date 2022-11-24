@@ -17,12 +17,13 @@ package com.vivid.graff.security
 
 import com.vivid.graff.SubdomainUtil
 import com.vivid.graff.logger
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+
 
 @RestController
 @RequestMapping("/auth")
