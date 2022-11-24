@@ -12,5 +12,12 @@
  *  See the License for the specific language governing permissions and limitations under the License.
  *
  */
+pluginManagement {
+    repositories {
+        maven { url = uri("https://repo.spring.io/milestone") }
+        gradlePluginPortal()
+    }
+}
+
 include("webapp")
 rootProject.name = "vivid-web-app"

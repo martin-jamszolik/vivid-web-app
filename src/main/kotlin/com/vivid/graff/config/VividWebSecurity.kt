@@ -24,8 +24,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpStatus
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.AuthenticationProvider
-import org.springframework.security.authentication.DefaultAuthenticationEventPublisher
-import org.springframework.security.authentication.ProviderManager
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -41,21 +40,20 @@ class VividWebSecurity
     (
     private val dsService: MultiDataSource,
     private val encoder: PasswordEncoder,
-    @Value("\${jwt.secret.passphrase}") private val passphrase: String
+    @Value("\${jwt.secret.passphrase}") private val passphrase: String,
+    private var authenticationConfiguration: AuthenticationConfiguration
 ) {
 
 
-    @Bean("authenticationManager")
+    @Bean
     @Throws(Exception::class)
-    fun authManager(): AuthenticationManager {
-        val auth = ProviderManager(authenticationProvider())
-        auth.setAuthenticationEventPublisher(DefaultAuthenticationEventPublisher())
-        return auth
+    fun authenticationManager(): AuthenticationManager {
+        return authenticationConfiguration.authenticationManager
     }
 
     @Bean
     fun authService(): AuthService {
-        return AuthService(authManager())
+        return AuthService(authenticationManager())
     }
 
     @Bean
@@ -68,17 +66,17 @@ class VividWebSecurity
         http.exceptionHandling()
             .authenticationEntryPoint(HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
             .and()
-            .authorizeRequests()
-            .antMatchers(
+            .authorizeHttpRequests()
+            .requestMatchers(
                 "/auth/jwt/login",
                 "/index.html", "/", "/*.js", "/*.css",
                 "/favicon.ico", "/*.ttf", "/*.woff"
             ).permitAll()
             .anyRequest().authenticated()
             .and()
-            .csrf().disable().authenticationManager(authManager())
+            .csrf().disable()
             .addFilter(JWTAuthenticationFilter(authService(), jwtProperties()))
-            .addFilter(JWTAuthorizationFilter(authManager(), jwtProperties()))
+            .addFilter(JWTAuthorizationFilter(authenticationManager(), jwtProperties()))
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         return http.build()
     }

@@ -17,13 +17,13 @@ package com.vivid.graff.config
 
 import com.vivid.graff.MultiDataSource
 import com.vivid.graff.logger
+import jakarta.annotation.PostConstruct
 import org.flywaydb.core.Flyway
 import org.flywaydb.core.api.Location
 import org.flywaydb.core.api.output.MigrateResult
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 import org.springframework.core.env.Environment
-import javax.annotation.PostConstruct
 
 @Configuration
 @Profile("!test")
