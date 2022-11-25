@@ -13,19 +13,17 @@
   ~
   -->
 
-<div class="row">
-  <div class="col-sm">
-    <div class="card">
-      <div class="card-header">
-        <h5 id="estimatorCard" class="card-title">Estimator</h5>
-      </div>
-      <div class="card-body">
-        <p class="card-text">Search your projects and proposals. All estimates and their
-          details.
-        </p>
-        <a routerLink="/estimation/search" class="btn btn-primary">Go to Estimator</a>
-      </div>
-    </div>
-  </div>
 
+
+<div class="grid">
+
+    <p-card id="estimatorCard" header="Estimator" class="col-6">
+      <p>Search your projects and proposals. All estimates and their
+        details.</p>
+      <a routerLink="/estimation/search" class="p-element p-button p-component">Go to Estimator</a>
+    </p-card>
+    <p-card header="Other" class="col-6">
+      <p>Some Other module of the application</p>
+      <a routerLink="/" class="p-element p-button p-component">Other Module</a>
+    </p-card>
 </div>

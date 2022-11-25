@@ -17,13 +17,6 @@
 
     <div class="p-grid p-flex-column">
         <div class="p-col">
-            <div class="p-inputgroup">
-                <button type="submit" id="InputSearchBtn" pButton pRipple label="Search"></button>
-                <input type="text" pInputText id="inputProject" name="inputProject" [(ngModel)]="query.projectName"
-                    placeholder="Project Name or Address">
-            </div>
-        </div>
-        <div class="p-col">
             <p-table [value]="projects.currentList" selectionMode="single" [(selection)]="selectedProject" 
                 dataKey="id"
                 (onRowSelect)="onRowSelect($event)" 
@@ -31,6 +24,19 @@
                 (onLazyLoad)="fetchProjectNextPage($event)"
                 [paginator]="true" [rows]="projects.limit" [totalRecords]="projects.totalRecords" [loading]="loading"
                 [rowsPerPageOptions]="[5,2,50]" >
+
+                <ng-template pTemplate="caption">
+                    <div class="p-d-flex">
+                        <span class="p-input-icon-left p-ml-auto">
+                            <div class="p-inputgroup">
+                                <button type="submit" id="InputSearchBtn" pButton pRipple label="Search"></button>
+                                <input type="text" pInputText id="inputProject" name="inputProject" [(ngModel)]="query.projectName"
+                                    placeholder="Project Name or Address">
+                            </div>
+                        </span>
+                    </div>
+                </ng-template>
+
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Title</th>

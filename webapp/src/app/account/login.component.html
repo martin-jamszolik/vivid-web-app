@@ -12,31 +12,46 @@
   ~  See the License for the specific language governing permissions and limitations under the License.
   ~
   -->
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-<div class="card">
-    <h4 class="card-header">Login</h4>
-    <div class="card-body">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
-                <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                    <div *ngIf="f.username.errors.required">Username is required</div>
+    <div class="px-5 min-h-screen flex justify-content-center align-items-center">
+        <div class="border-1 surface-border surface-card border-round py-7 px-4 md:px-7 z-1">
+            <div class="mb-4">
+                <div class="text-900 text-xl font-bold mb-2">Log in</div>
+                <span class="text-600 font-medium">Welcome to Vivid Application</span>
+            </div>
+            <div class="flex flex-column">
+                <span class="p-input-icon-left w-full mb-4"><i class="pi pi-envelope"></i>
+                    <input id="username" type="text" pinputtext="" placeholder="Username" formControlName="username"
+                        class="p-inputtext p-component p-element w-full md:w-25rem"
+                        [ngClass]="{ 'is-invalid': submitted && f.username.errors }">
+                </span>
+                <span class="p-input-icon-left w-full mb-4">
+                    <i class="pi pi-lock"></i>
+                    <input id="password" type="password" pinputtext="" placeholder="Password" formControlName="password"
+                        class="p-inputtext p-component p-element w-full md:w-25rem"
+                        [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
+                </span>
+                <div class="mb-4 flex flex-wrap gap-3">
+                    <div *ngIf="submitted && f.username.errors" >
+                        <div *ngIf="f.username.errors.required">
+                            <p-message severity="error" text="Username Required"></p-message>
+                        </div>
+                    </div>
+                    <div *ngIf="submitted && f.password.errors" >
+                        <div *ngIf="f.password.errors.required">
+                            <p-message severity="error" text="Password Required"></p-message>
+                        </div>
+                    </div>
+
+                    <div *ngIf="submitted && validAlert() " >
+                        <p-message severity="error" text="{{alert.message}}"></p-message>
+                    </div>
+
                 </div>
+                <button pbutton="" label="Log In" class="p-element w-full p-button p-component"
+                    tabindex="0"><span class="p-button-label">Log In</span></button>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <button [disabled]="loading" class="btn btn-primary">
-                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-                    Login
-                </button>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+</form>

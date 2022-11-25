@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { TableModule } from 'primeng/table';
+import {CardModule} from 'primeng/card';
 
 import { HomeComponent } from './home.component';
 
@@ -8,7 +11,8 @@ describe('HomeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent ]
+      declarations: [ HomeComponent ],
+      imports: [FormsModule,TableModule,CardModule]
     })
     .compileComponents();
   }));
