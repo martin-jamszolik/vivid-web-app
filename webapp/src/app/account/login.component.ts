@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { AccountService, AlertService } from '@app/shared';
+import { AccountService, AlertService,Alert, AlertType } from '@app/shared';
 
 @Component({ templateUrl: 'login.component.html' })
 export class LoginComponent implements OnInit {
@@ -11,6 +11,8 @@ export class LoginComponent implements OnInit {
     loading = false;
     submitted = false;
     returnUrl: string;
+
+    alert: Alert;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -28,6 +30,13 @@ export class LoginComponent implements OnInit {
 
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+
+        this.alertService.onAlert()
+            .subscribe(_alert => this.alert = _alert)
+    }
+
+    validAlert() {
+        return alert != undefined && this.alert.type != AlertType.None
     }
 
     // convenience getter for easy access to form fields
@@ -47,13 +56,13 @@ export class LoginComponent implements OnInit {
         this.loading = true;
         this.accountService.login(this.f.username.value, this.f.password.value)
             .pipe(first())
-            .subscribe(
-                () => {
+            .subscribe({
+                next:   () => {
                     this.router.navigate([this.returnUrl]);
                 },
-                error => {
-                    this.alertService.error(error);
+                error: (e) => {
+                    this.alertService.error(e.statusText);
                     this.loading = false;
-                });
+                }});
     }
 }

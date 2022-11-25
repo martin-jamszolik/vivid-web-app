@@ -10,8 +10,7 @@ import { TreeTableModule } from 'primeng/treetable';
 import { PanelModule } from 'primeng/panel'
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import {CardModule} from 'primeng/card';
 
 
 
@@ -22,12 +21,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     SharedModule,
     EstimatorRoutingModule,
-    NgbModule,
     TableModule,
     TreeTableModule,
     InputTextModule,
     ButtonModule,
     PanelModule,
+    CardModule,
   ]
 })
 export class EstimatorModule { }
