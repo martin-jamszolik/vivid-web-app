@@ -18,13 +18,13 @@ import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 
 plugins {
-    id("org.springframework.boot") version "3.0.0-RC2"
+    id("org.springframework.boot") version "3.0.0"
     id("io.spring.dependency-management") version "1.1.0"
-    kotlin("jvm") version "1.7.20"
-    kotlin("plugin.spring") version "1.7.20"
+    kotlin("jvm") version "1.7.21"
+    kotlin("plugin.spring") version "1.7.21"
 
     id("com.adarshr.test-logger") version "3.2.0"
-    id("com.github.ben-manes.versions") version "0.42.0"
+    id("com.github.ben-manes.versions") version "0.44.0"
 }
 
 group = "com.vivid"
@@ -42,7 +42,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude(module = "spring-boot-starter-tomcat")
     }
-    implementation("com.auth0:java-jwt:4.0.0")
+    implementation("com.auth0:java-jwt:4.2.1")
     implementation("org.springframework.boot:spring-boot-starter-undertow")
 
     implementation("org.springframework.boot:spring-boot-starter-jdbc")

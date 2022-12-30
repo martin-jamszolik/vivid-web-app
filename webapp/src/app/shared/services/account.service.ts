@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as moment from "moment";
+import { DateTime } from "luxon";
 
 import { User } from '@app/shared/models';
 
@@ -29,29 +29,28 @@ export class AccountService {
         .pipe(
             map( (res: any) => {
                 this.setSession(res)
-                return res;
+                return res
             })
         );
 
     }
 
     isLoggedIn(): boolean {
-        return moment().isBefore(this.getExpiration());
+        return DateTime.now() < this.getExpiration()
     }
 
     isLoggedOut() {
-        return !this.isLoggedIn();
+        return !this.isLoggedIn()
     }
 
-    getExpiration(): moment.Moment {
-        const expiration = localStorage.getItem("vivid_expires_at");
-        const expiresAt = JSON.parse(expiration);
-        return moment(expiresAt);
+    getExpiration(): DateTime {
+        const expiration = localStorage.getItem("vivid_expires_at")
+        const expiresAt = JSON.parse(expiration)
+        return expiresAt != undefined ? DateTime.fromMillis(expiresAt): undefined
     }  
 
     private setSession(tokenPayload) {
-        const expiresAt = moment( tokenPayload.expires * 1000)
-
+        const expiresAt = DateTime.fromMillis( tokenPayload.expires * 1000 )
         localStorage.setItem('vivid_id_token', tokenPayload.token);
         localStorage.setItem("vivid_expires_at", JSON.stringify(expiresAt.valueOf()) );
     }  
@@ -65,5 +64,4 @@ export class AccountService {
     logout() {
       this.clearUser
     }
-
 }

@@ -3,12 +3,16 @@ import com.github.gradle.node.npm.task.NpmTask
 
 plugins {
   kotlin("jvm")
-  id("com.github.node-gradle.node") version "3.3.0"
+  id("com.github.node-gradle.node") version "3.5.0"
 }
 
 repositories {
   mavenCentral()
 }
+
+group = "com.vivid"
+version = "0.0.1-SNAPSHOT"
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 dependencies {
   implementation("org.jetbrains.kotlin:kotlin-reflect")
