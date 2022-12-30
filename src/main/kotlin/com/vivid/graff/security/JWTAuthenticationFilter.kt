@@ -35,8 +35,9 @@ class JWTAuthenticationFilter(
                 req.inputStream,
                 UserRequest::class.java
             )
-            val client = SubdomainUtil.subdomain(req.serverName)
-            requestUser.client = client
+            requestUser.client = requestUser.client.ifBlank {
+                SubdomainUtil.subdomain(req.serverName)
+            }
             service.login(requestUser)
         } catch (e: IOException) {
             throw RuntimeException(e)
