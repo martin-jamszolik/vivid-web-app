@@ -41,8 +41,10 @@ class AuthController(private val authService: AuthService) {
         request: HttpServletRequest,
         response: HttpServletResponse
     ): ResponseEntity<User> {
-        val client = SubdomainUtil.subdomain(request.serverName)
-        requestUser.client = client
+
+        requestUser.client = requestUser.client.ifBlank {
+            SubdomainUtil.subdomain(request.serverName)
+        }
         val authentication = authService.login(requestUser)
 
         val user = authentication.principal as User

@@ -79,7 +79,7 @@ class VividAuthenticationProvider(
         val pwd = result.getString("password")!!
         return User.Builder(userId, user.username, pwd, roles = arrayListOf(Role(id = 1L, roleName = "ADMIN")))
             .fullName(fullName)
-            .client(user.client)
+            .client(user.client.orEmpty())
             .build()
     }
 

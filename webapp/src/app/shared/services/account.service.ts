@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { DateTime } from "luxon";
 
@@ -25,7 +26,7 @@ export class AccountService {
 
     login(username: string, password: string): Observable<HttpResponse<string>> {
 
-        return this.http.post<any>('auth/jwt/login', { username, password })
+        return this.http.post<any>('auth/jwt/login', { username, password, client: environment.backend_client })
         .pipe(
             map( (res: any) => {
                 this.setSession(res)
