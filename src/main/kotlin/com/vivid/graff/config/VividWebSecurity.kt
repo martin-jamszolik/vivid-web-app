@@ -68,7 +68,7 @@ class VividWebSecurity
             .and()
             .authorizeHttpRequests()
             .requestMatchers(
-                "/auth/jwt/login",
+                "/auth/jwt/login", "/health", "/actuator/health",
                 "/index.html", "/", "/*.js", "/*.css",
                 "/favicon.ico", "/*.ttf", "/*.woff"
             ).permitAll()
