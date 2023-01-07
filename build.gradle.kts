@@ -39,6 +39,7 @@ repositories {
 dependencies {
     implementation(project(":webapp"))
     implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude(module = "spring-boot-starter-tomcat")
     }
