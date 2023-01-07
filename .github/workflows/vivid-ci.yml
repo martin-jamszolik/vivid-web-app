@@ -72,7 +72,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
-          project: ./webapp
+          working-directory: webapp
           build: npm ci
           start: npm run backend, npm start
           wait-on: 'http://localhost:8080/actuator/health'
