@@ -3,15 +3,25 @@
 // with Intellisense and code completion in your
 // IDE or Text Editor.
 // ***********************************************
-// declare namespace Cypress {
-//   interface Chainable<Subject = any> {
-//     customCommand(param: any): typeof customCommand;
-//   }
-// }
-//
-// function customCommand(param: any): void {
-//   console.warn(param);
-// }
+ declare namespace Cypress {
+   interface Chainable<Subject = any> {
+    login(username: string, password: string): typeof login;
+   }
+ }
+
+ function login(username: string, password: string): void {
+    cy.session(
+        username,
+        () => {
+            cy.visit('/')
+            cy.get('#username').type(username)
+            cy.get('#password').type(`${password}{enter}`, { log: false })
+            cy.url().should('include', '/')
+            cy.get('#estimatorCard > .p-card > .p-card-body > .p-card-title')
+                                        .should('contain', 'Estimator')
+        }
+      )
+ }
 //
 // NOTE: You can use it like so:
 // Cypress.Commands.add('customCommand', customCommand);
@@ -26,13 +36,9 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 //
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
+
+Cypress.Commands.add("login",(username:string,password:string) => login(username,password))
+
 //
 //
 // -- This is a dual command --
