@@ -14,7 +14,7 @@ describe('Estimator App', () => {
     cy.get('#estimatorLink').click()
     cy.url().should('contain','estimation/search')
     cy.get('#inputProject').type(`1030 5th Avenue {enter}`, { log: false })
-    cy.get('.p-datatable-tbody > .p-element > :nth-child(1)').click()
+    cy.get('.p-datatable-tbody > .p-element > :nth-child(1)').should('exist').click()
     cy.get('.p-selectable-row > :nth-child(1) > .p-element').contains('Roof Project')
   })
 
