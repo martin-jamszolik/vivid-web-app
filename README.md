@@ -5,26 +5,22 @@ A data driven business application using latest in Angular and Spring Web techno
 we want to see a composition of a more feature rich application.
 kick-start a project by sharing solutions utilized in the real world scenarios.  
 Vivid webapp is a collection of opinionated patterns and practices solving initial setup concerns.  We intend for this project 
-to evolve along with the utilized technology. We invite you to 
-contribute and give feedback.
+to evolve along with the utilized technology.
 
 ## Why?
 Well, among the many available blogs and demos out there, most projects focus on showcasing a 
 specific feature in mind while lacking many essential components. This project aims to include real life solutions and patterns.
-The application already includes many concepts a real app would want to solve.
+So that you can focus on customer delivery and harness the flexibility you need.
 
 ## How?
-Combine `Angular/TypeScript` and the 
-powerful JVM based `Kotlin` language, enterprise ready `Spring Boot` MVC Framework to 
-power backend services.  There are many frameworks/languages out there to choose from like `Ruby on Rails`, `Play Framework`, `Flask`, `Node.js` among many others. 
-All have something unique and wonderful to offer.  This project is meant to showcase the evolution, challenges
-and aspects of 
+`Angular/TypeScript` backed by JVM based `Kotlin` language with enterprise ready `Spring Boot` MVC Framework for 
+backend services.
 [Angular](https://angular.io/), 
 [TypeScript](https://www.typescriptlang.org/), 
 [Kotlin](https://kotlinlang.org/), and 
-[Spring Boot](https://spring.io/web-applications) while operating together.
+[Spring Boot](https://spring.io/web-applications) in harmony to enable fast delivery.
 
-Read [**HELP**](HELP.md) to get started.
+### See [**HELP**](HELP.md) to get started.
 
 ## Major Features
 
@@ -36,23 +32,22 @@ Read [**HELP**](HELP.md) to get started.
 * Standard tooling with `npm` commands as per [package.json](webapp/package.json) behind a backend [proxy](webapp/proxy.conf.json).
 * Angular `Lazy` module loading for large application scalability.
 * `Dockerfile` to help run the application as a container.
-* Database migrations using [flyway](https://flywaydb.org/) with multi database support.
+* Using [flyway](https://flywaydb.org/) with multi database **migration**.
 * JWT Token for authentication.
+* E2E Tests using Cypress.io ( including `github` CI action )
 ## Future Goals
 
 * Add Kubernetes deployment definitions for cluster deployment.
 
 
-## Technology Reference
 ### UI Technologies 
-* Angular 13+
-* TypeScript 4.5+
-* ng-bootstrap - CSS System
+* Angular 14+
+* TypeScript 4.7+
 * PrimeNG- Rich UI Components 
 
-### Server Technology
-* Kotlin 1.5+
-* Spring Boot 2.5+
+### Full-stack Technology
+* Kotlin 1.7+
+* Spring Boot 3+
 * Gradle 7
 * Ktorm
 * Flyway
