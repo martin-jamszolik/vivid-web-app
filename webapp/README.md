@@ -25,9 +25,7 @@ for the rest service powering the project.
 npm outdated
 
 ng update @angular/core@15 @angular/cli@15 \
-@angular-eslint/schematics@15 @angular/cdk@15
-
-ng update primeng@15
+@angular-eslint/schematics@15 @angular/cdk@15 primeng@15
 
 npm outdated
 ncu --upgrade
