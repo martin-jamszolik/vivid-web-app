@@ -15,6 +15,7 @@ import java.util.*
 import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.http.ResponseCookie
 
 class JWTAuthenticationFilter(
     private val service: AuthService,
@@ -63,11 +64,15 @@ class JWTAuthenticationFilter(
         res.addHeader(settings.header, settings.prefix + token)
         res.addHeader(HttpHeaders.CONTENT_TYPE, "application/json")
 
-        //res.addHeader(HttpHeaders.SET_COOKIE, ResponseCookie.from(settings.cookie,token)
-        //    .path("/")
-        //    .httpOnly(true)
-        //   .secure(true)
-        //   .build().toString() )
+        var cook = ResponseCookie.from(settings.cookie, token)
+            .path("/")
+            .domain(req.serverName)
+            .httpOnly(true)
+            .sameSite("Strict")
+            .secure(settings.secure)
+            .build()
+
+        res.addHeader(HttpHeaders.SET_COOKIE, cook.toString() )
 
         res.writer.write(
             """
