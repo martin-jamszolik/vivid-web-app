@@ -41,6 +41,7 @@ class VividWebSecurity
     private val dsService: MultiDataSource,
     private val encoder: PasswordEncoder,
     @Value("\${jwt.secret.passphrase}") private val passphrase: String,
+    @Value("\${jwt.cookie.secure}") private val cookieSecure: Boolean,
     private var authenticationConfiguration: AuthenticationConfiguration
 ) {
 
@@ -83,7 +84,12 @@ class VividWebSecurity
 
     @Bean
     fun jwtProperties(): JwtSettings {
-        return JwtSettings(passphrase, "Authorization", "auth-session", "Bearer ", 1000L * 60 * 30)
+        return JwtSettings(passphrase,
+            "Authorization",
+            "auth-session",
+            cookieSecure,
+            "Bearer ",
+            1000L * 60 * 30)
     }
 
 

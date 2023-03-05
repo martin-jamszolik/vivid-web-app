@@ -18,7 +18,6 @@ package com.vivid.graff.config
 import org.ktorm.database.Database
 import org.ktorm.jackson.KtormModule
 import org.ktorm.logging.Slf4jLoggerAdapter
-import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import javax.sql.DataSource
@@ -28,8 +27,8 @@ class KtormConfiguration(val dataSource: DataSource) {
 
     @Bean
     fun database(): Database {
-        val logger = LoggerFactory.getLogger("org.ktorm")
-        return Database.connectWithSpringSupport(dataSource,logger = Slf4jLoggerAdapter( logger ))
+        return Database.connectWithSpringSupport(dataSource,
+            logger = Slf4jLoggerAdapter( "org.ktorm" ))
     }
 
     /**
